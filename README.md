@@ -1,21 +1,26 @@
-## Getting Started with Create React App
-
-## Demo
+# Demo
 
 [denisso.github.io](https://denisso.github.io/)
 
 ## Install & Develop & Build
 Install
+
 `npm i `
 `npm run postinstall`
+
 Development
+
 `npm start`
+
 Build
+
 `npm run build`
 
 ## Features
  - **Create React App** Create React App is an officially supported way to create single-page React applications. It offers a modern build setup with no configuration.
  - **Redux Toolkit & rtkQuery** State and Cache management
+ - **React Router** React Router is a fully-featured client and server-side routing library for React, a JavaScript library for building user interfaces. React Router runs anywhere React runs; on the web, on the server with node.js, and on React Native.
+ - **Typescript** TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
  - **Styled-components** Use the best bits of ES6 and CSS to style your apps without stress
    - **No class name bugs**: styled-components generates unique class names for your styles. You never have to worry about duplication, overlap or misspellings.
    - **Automatic vendor prefixing**: write your CSS to the current standard and let styled-components handle the rest.
@@ -43,30 +48,3 @@ Build
 - **Home page**: description of the components that were used in the development of this demo project
 - **About me**: description of my skills
 - **Notes with comments**: demonstration of the markdown component and the Comments module
-
-## Dependencies
-
-"fast-xml-parser": "^4.0.7",
-"formik": "^2.2.9",
-"framer-motion": "^6.2.6",
-"highlight.js": "^11.5.1",
-"lodash.throttle": "^4.1.1",
-"markdown-it": "^12.3.2",
-"msw": "^0.38.1",
-"npm": "^8.5.3",
-"react": "^17.0.2",
-"react-dom": "^17.0.2",
-"react-markdown": "^8.0.2",
-"react-redux": "^7.2.6",
-"react-router-dom": "^6.2.1",
-"react-scripts": "5.0.0",
-"redux-typescript": "^1.2.1",
-"rehype-highlight": "^5.0.2",
-"remark-directive": "^2.0.1",
-"styled-breakpoints": "^11.0.4",
-"styled-components": "^5.3.3",
-"typescript": "^4.5.5",
-"uniqid": "^5.4.0",
-"unist-util-visit": "^4.1.0",
-"web-vitals": "^2.1.4",
-"yup": "^0.32.11"
