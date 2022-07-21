@@ -58,7 +58,7 @@ export const NavHeadersMobile = ({
     //  to avoid rerun the callback onClickAnchor
     currentHeaderRef.current = currentHeader;
     const { Modal, openModal, closeModal } = useModal("Choose section");
-    const isModalOpen = React.useRef(false);
+
     const onClickAnchor = React.useCallback(({ type, payload }: any) => {
         if (refHeaders.current.length === 0) return;
         let indx = currentHeaderRef.current;
@@ -75,9 +75,9 @@ export const NavHeadersMobile = ({
                 break;
             default:
         }
-        closeModal();
-        if (isModalOpen.current)
-            scrollContent(refHeaders.current[indx].offsetTop);
+        scrollContent(refHeaders.current[indx].offsetTop);
+
+        closeModal()
     }, []);
     if (currentHeader < 0) {
         return <></>;
@@ -94,7 +94,6 @@ export const NavHeadersMobile = ({
                     <Button
                         onClick={(e: any) => {
                             openModal(e);
-                            isModalOpen.current = true;
                         }}
                     >
                         Current: {refHeaders.current[currentHeader]?.innerText}
@@ -127,7 +126,6 @@ export const NavHeadersMobile = ({
                         <Button
                             onClick={(e: any) => {
                                 closeModal(e);
-                                isModalOpen.current = false;
                             }}
                         >
                             Close
