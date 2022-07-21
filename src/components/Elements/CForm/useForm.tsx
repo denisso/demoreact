@@ -19,7 +19,7 @@ const Container = styled.div`
             height: 100%;
             display: grid;
             place-items: center;
-            background: white;
+            background-color: ${({ theme }) => theme.colorRoot};
             .Icon{
                 width: 3rem;
                 height: auto;
