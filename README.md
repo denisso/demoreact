@@ -33,6 +33,7 @@ Build
      - there is a possibility of embedding an iframe, made through writing your own plugin
      - syntax highlighting, using the recipe-highlight plugin and highlight.js
  - **Lazy Loading** Media resources are loaded and lazy components are loaded only when they fall into the viewport area.
+ - **Dark / Light Theme** With the Dark Theme, your pupils must dilate to take in as much light as possible – which is beneficial at night, but it can make reading difficult during the day. However, the Light Theme makes your pupils constrict and focus more, which improves sharpness. This is similar to how camera apertures work.
  - **Transition Grid Layout** Smooth change of position (animation) of elements in the dom in the grid, which allows you to animate properties such as flex-wrap  when the width of the viewport changes.
  - **Form constructor generator** to create a form, a schema is used that describes each field with a set of properties: name, label, type, required. 
    - optional: placeholder, additional validation options, onChange, onBlur event handlers
