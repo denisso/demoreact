@@ -138,7 +138,7 @@ export const Footer = () => {
             </div>
             <div className="contactsAndSocial">
                 <Anchor
-                    href="https://github.com/denisso?tab=repositories&type=source"
+                    href="https://github.com/denisso/demoreact"
                     className="socialIcon"
                     target="_blank"
                 >
