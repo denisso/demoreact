@@ -3,6 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
+import React from "react"
 import styled from "styled-components";
 import { themeType } from "features/theming";
 
@@ -47,7 +48,7 @@ const SpinnerContainer = styled.span<{ theme: themeType }>`
 
 const arr = Array.from(Array(5), (x, index) => index);
 
-export const Spinner = () => {
+export const Spinner = React.memo(() => {
     return (
         <SpinnerContainer>
             {arr.map((e: number) => (
@@ -55,4 +56,4 @@ export const Spinner = () => {
             ))}
         </SpinnerContainer>
     );
-};
+});

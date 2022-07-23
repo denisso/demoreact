@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { useSelector } from "react-redux";
 import { ThemeProvider as Tp } from "styled-components";
 import { selectTheme } from "./reducer";
@@ -13,7 +13,7 @@ import { useResizeObserver } from "./hooks/useResizeObserver";
 
 type Children = { children: JSX.Element | JSX.Element[] | string | string[] };
 
-export const ThemeProvider = ({ children }: Children) => {
+export const ThemeProvider = React.memo(({ children }: Children) => {
     const theme: themeType = useSelector(selectTheme);
     useResizeObserver();
     return (
@@ -22,4 +22,4 @@ export const ThemeProvider = ({ children }: Children) => {
             {children}
         </Tp>
     );
-};
+});

@@ -14,7 +14,7 @@ const Container = styled.div`
     }
 `;
 
-export const PreLoader = () => {
+export const PreLoader = React.memo(() => {
     const dispatch = useDispatch();
     const { Modal, openModal, closeModal } = useModal("Welocome!");
     const isReady = useGetReadyServer();
@@ -36,4 +36,4 @@ export const PreLoader = () => {
             </Container>
         </Modal>
     );
-};
+});

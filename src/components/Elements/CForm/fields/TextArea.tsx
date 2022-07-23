@@ -1,7 +1,9 @@
 /**
- * 
+ * @description Image without Lazy Loading
+ * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
+ * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { FormField } from "../FormField";
 import styled from "styled-components";
 
@@ -23,7 +25,7 @@ const TextAreaStyled = styled.textarea`
     }
 `;
 
-export const TextArea = ({
+export const TextArea = React.memo(({
     label,
     field: { name, value, ...fieldProps },
     form,
@@ -45,4 +47,4 @@ export const TextArea = ({
             />
         </FormField>
     );
-};
+});

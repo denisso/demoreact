@@ -81,7 +81,7 @@ const NoteContainerStyle = styled(ItemAnimated)<{ theme: themeType }>`
     }
 `;
 
-const NoteContainer = ({ noteData, infinity }: any) => {
+const NoteContainer = React.memo(({ noteData, infinity }: any) => {
     const ref = React.useRef<any>();
 
     return (
@@ -136,5 +136,5 @@ const NoteContainer = ({ noteData, infinity }: any) => {
             </ComponentLazy>
         </NoteContainerStyle>
     );
-};
+});
 export const NoteContainerMemo = React.memo(NoteContainer);

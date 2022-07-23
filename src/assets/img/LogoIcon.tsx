@@ -3,6 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
+import React from "react"
 import styled from "styled-components";
 import { themeType } from "features/theming";
 
@@ -19,7 +20,7 @@ const Svg = styled.svg.attrs({
     }
 `;
 
-export const Icon = () => {
+export const Icon = React.memo(() => {
     return (
         <Svg viewBox="0 0 100 100">
             <path
@@ -31,7 +32,7 @@ export const Icon = () => {
 
         </Svg>
     );
-};
+});
 
 const LogoContainer = styled.div<{ size: string }>`
     display: flex;
@@ -40,10 +41,10 @@ const LogoContainer = styled.div<{ size: string }>`
     height: ${(props) => props.size};
 `;
 
-export const Logo = ({ size = "30px" }: { size: string }) => {
+export const Logo = React.memo(({ size = "30px" }: { size: string }) => {
     return (
         <LogoContainer size={size}>
             <Icon />
         </LogoContainer>
     );
-};
+});

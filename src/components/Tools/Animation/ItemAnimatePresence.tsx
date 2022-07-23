@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
@@ -31,7 +31,7 @@ export type Props = {
     className?: any;
 };
 
-export const ItemAnimatePresence = ({
+export const ItemAnimatePresence = React.memo(({
     children,
     className,
     isVisible = true,
@@ -52,4 +52,4 @@ export const ItemAnimatePresence = ({
             )}
         </AnimatePresence>
     );
-};
+});

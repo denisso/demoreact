@@ -112,7 +112,7 @@ const FooterWrapper = styled.footer.attrs({ className: "container" })`
     }
 `;
 
-export const Footer = () => {
+export const Footer = React.memo(() => {
     const openFormModal = React.useRef<(arg: any) => void>((arg: any) => {});
     return (
         <FooterWrapper>
@@ -159,4 +159,4 @@ export const Footer = () => {
             />
         </FooterWrapper>
     );
-};
+});

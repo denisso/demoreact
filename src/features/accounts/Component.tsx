@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { useSelector } from "react-redux";
 import { selectSignInState } from "./reducer";
 import { GoogleButton } from "./Google/GoogleButton";
@@ -27,7 +27,7 @@ const Container = styled(ItemAnimatePresence)`
     }
 `;
 
-export const AccountComponent = () => {
+export const AccountComponent = React.memo(() => {
     const { isSignIn, currentUserID } = useSelector(selectSignInState);
     const isReady = useGetReady();
     return (
@@ -44,4 +44,4 @@ export const AccountComponent = () => {
             )}
         </Container>
     );
-};
+});

@@ -1,3 +1,10 @@
+/**
+ * @description Image without Lazy Loading
+ * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
+ * @copyright Denis Kurochkin 2022
+ */
+
+import React from "react"
 import styled from "styled-components";
 
 const FormFieldStyled = styled.div`
@@ -12,7 +19,7 @@ const FormFieldStyled = styled.div`
     }
 `;
 
-export const FormField = ({
+export const FormField = React.memo(({
     name,
     label,
     required,
@@ -31,4 +38,4 @@ export const FormField = ({
             {children}
         </FormFieldStyled>
     );
-};
+});

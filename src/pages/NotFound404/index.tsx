@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkSlash, faReply } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -19,7 +19,7 @@ const Content = styled.div`
     }
 `;
 
-export const NotFound404 = () => {
+export const NotFound404 = React.memo(() => {
     return (
         <Content>
             <h1>
@@ -42,4 +42,4 @@ export const NotFound404 = () => {
             </p>
         </Content>
     );
-};
+});

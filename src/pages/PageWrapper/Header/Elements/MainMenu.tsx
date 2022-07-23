@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { LinkStyled } from "components/Elements/Link";
 import styled, { withTheme } from "styled-components";
 import { themeType, mUp } from "features/theming";
@@ -19,7 +19,7 @@ const Nav = styled.nav.attrs({ className: "nav" })`
 
 const links = { aboutme: "About Me", notes: "Notes" };
 
-export const MainMenu = withTheme(({ theme }: { theme: themeType }) => {
+const MainMenuComponent = withTheme(({ theme }: { theme: themeType }) => {
     return (
         <Nav>
             {Object.entries(links).map(([anchor, text], i) => (
@@ -30,3 +30,5 @@ export const MainMenu = withTheme(({ theme }: { theme: themeType }) => {
         </Nav>
     );
 });
+
+export const MainMenu = React.memo(MainMenuComponent)

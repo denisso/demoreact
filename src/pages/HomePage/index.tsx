@@ -158,7 +158,7 @@ const Content = styled.div`
     }
 `;
 
-export const HomePage = () => {
+export const HomePage = React.memo(() => {
     const { data, error, isLoading } = useGetPageQuery("homepage");
     React.useEffect(() => {
         document.title = "Home page";
@@ -189,4 +189,4 @@ export const HomePage = () => {
             )}
         </Content>
     );
-};
+});

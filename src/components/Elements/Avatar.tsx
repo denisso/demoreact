@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react"
 import { useSelector } from "react-redux";
 import { selectSignInState } from "features/accounts/reducer";
 import { Image } from "./Image";
@@ -14,7 +14,7 @@ const AvatarByUser = (props: any) => {
     return <Image src={credentials.picture} {...props} />;
 };
 
-export const Avatar = ({ src, ...props }: any) => {
+export const Avatar = React.memo(({ src, ...props }: any) => {
     if (typeof src === "string") return <Image src={src} {...props} />;
     return <AvatarByUser {...props} />;
-};
+});

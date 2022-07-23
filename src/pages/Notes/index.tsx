@@ -3,13 +3,12 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
 import { Outlet } from "react-router-dom";
 import React from "react";
 import { ContextNotes } from "./ContextNotes";
 import { scrollContent } from "components/Tools";
 
-export const Notes = () => {
+export const Notes = React.memo(() => {
     const [currentHeader, setCurrentHeader] = React.useState(-1);
     React.useEffect(() => {
         document.title = "Notes";
@@ -27,4 +26,4 @@ export const Notes = () => {
             <Outlet />
         </ContextNotes.Provider>
     );
-};
+});

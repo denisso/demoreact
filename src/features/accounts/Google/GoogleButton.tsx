@@ -80,7 +80,7 @@ declare global {
     }
 }
 
-export const GoogleButton = ({ className }: { className?: string }) => {
+export const GoogleButton = React.memo(({ className }: { className?: string }) => {
     const { isSignIn, credentials, currentUserID } =
         useSelector(selectSignInState);
     const dispatch = useDispatch();
@@ -204,4 +204,4 @@ export const GoogleButton = ({ className }: { className?: string }) => {
             </Modal>
         </div>
     );
-};
+});

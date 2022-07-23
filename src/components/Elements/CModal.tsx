@@ -140,7 +140,7 @@ export const useModal = (title?: string) => {
     };
 };
 
-export const CModal = ({
+export const CModal = React.memo(({
     title,
     show,
     children,
@@ -189,4 +189,4 @@ export const CModal = ({
             )}
         </>
     , document.body);
-};
+});

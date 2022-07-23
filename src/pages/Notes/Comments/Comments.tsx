@@ -1,9 +1,9 @@
 /**
- * @description 
+ * @description
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-
+import React from "react";
 import { Avatar } from "components/Elements/Avatar";
 import styled from "styled-components";
 import { CommentButtons } from "./CommentButtons";
@@ -113,42 +113,40 @@ const Comment = ({
     );
 };
 
-export const CommentsRender = ({
-    comments,
-}: {
-    comments: CommentDataType[];
-}) => {
-    return (
-        <>
-            {comments instanceof Array &&
-                comments.map((comment: CommentDataType) => {
-                    return (
-                        <Comment key={comment.commentid} comment={comment}>
-                            {comment.child instanceof Array &&
-                                comment.child.length > 0 && (
-                                    <div className="CommentsChild">
-                                        {comment.child.map(
-                                            (child: CommentDataType) => (
-                                                <div
-                                                    key={child.commentid}
-                                                    className="CommentsChildContainer"
-                                                >
-                                                    <div className="CommentsChildOffsetLeft"></div>
-                                                    <Comment
-                                                        comment={{
-                                                            ...child,
-                                                            parentid:
-                                                                comment.commentid,
-                                                        }}
-                                                    />
-                                                </div>
-                                            )
-                                        )}
-                                    </div>
-                                )}
-                        </Comment>
-                    );
-                })}
-        </>
-    );
-};
+export const CommentsRender = React.memo(
+    ({ comments }: { comments: CommentDataType[] }) => {
+        return (
+            <>
+                {comments instanceof Array &&
+                    comments.map((comment: CommentDataType) => {
+                        return (
+                            <Comment key={comment.commentid} comment={comment}>
+                                {comment.child instanceof Array &&
+                                    comment.child.length > 0 && (
+                                        <div className="CommentsChild">
+                                            {comment.child.map(
+                                                (child: CommentDataType) => (
+                                                    <div
+                                                        key={child.commentid}
+                                                        className="CommentsChildContainer"
+                                                    >
+                                                        <div className="CommentsChildOffsetLeft"></div>
+                                                        <Comment
+                                                            comment={{
+                                                                ...child,
+                                                                parentid:
+                                                                    comment.commentid,
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                    )}
+                            </Comment>
+                        );
+                    })}
+            </>
+        );
+    }
+);

@@ -1,3 +1,8 @@
+/**
+ * @description
+ * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
+ * @copyright Denis Kurochkin 2022
+ */
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "./fields/TextField";
@@ -47,7 +52,7 @@ const FormStyled = styled(Form)`
  }
 `
 
-export const CForm = ({ onSubmit, onCancel, schema, className }: CFormProps) => {
+export const CForm = React.memo(({ onSubmit, onCancel, schema, className }: CFormProps) => {
     const initialValues: initialValuesType = React.useMemo(() => {
         return schema.reduce((prev: any, { name, value }: any) => {
             prev[name] = value || "";
@@ -92,4 +97,4 @@ export const CForm = ({ onSubmit, onCancel, schema, className }: CFormProps) => 
             </FormStyled>
         </Formik>
     );
-};
+});

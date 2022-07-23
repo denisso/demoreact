@@ -46,7 +46,7 @@ const Wrapper = styled.div`
 
 const Dummy = () => <></>;
 
-export const Blocks = ({ className, data }: any) => {
+export const Blocks = React.memo(({ className, data }: any) => {
     return (
         <div className={className}>
             {data.map((blockData: any, i: number) =>
@@ -71,4 +71,4 @@ export const Blocks = ({ className, data }: any) => {
             )}
         </div>
     );
-};
+});

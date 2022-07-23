@@ -38,7 +38,7 @@ const Container = styled.div`
         }
     }
 `;
-export const BlockSection = ({ className, data }: any) => {
+export const BlockSection = React.memo(({ className, data }: any) => {
     const { name, desc, links, badgets, sandboxes } = data;
     return (
             <Container className={className}>
@@ -96,5 +96,5 @@ export const BlockSection = ({ className, data }: any) => {
                 </div>
             </Container>
     );
-};
+});
 

@@ -43,7 +43,7 @@ const Content = styled.div`
     }
 `;
 
-export const NotesListWithFilter = () => {
+export const NotesListWithFilter = React.memo(() => {
     const { intersect }: PagesContextType = React.useContext(PagesContext);
     React.useEffect(() => {
         scrollContent(0);
@@ -118,4 +118,4 @@ export const NotesListWithFilter = () => {
             </ItemAnimatePresence>
         </Content>
     );
-};
+});

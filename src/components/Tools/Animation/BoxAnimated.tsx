@@ -73,7 +73,7 @@ const Content = styled.div`
         width var(--transition);
 `;
 
-export const ItemAnimated = ({ children, className }: any) => {
+export const ItemAnimated = React.memo(({ children, className }: any) => {
     const arrayComponents = React.Children.toArray(children);
     return (
         <div
@@ -97,9 +97,9 @@ export const ItemAnimated = ({ children, className }: any) => {
             )}
         </div>
     );
-};
+});
 
-export const BoxAnimated = ({ children, className }: any) => {
+export const BoxAnimated = React.memo(({ children, className }: any) => {
     const refParentBox = React.useRef<any>(null);
     const { install, refresh, uninstall } = useAnimateBlocks();
     React.useEffect(() => {
@@ -126,4 +126,4 @@ export const BoxAnimated = ({ children, className }: any) => {
             {children}
         </div>
     );
-};
+});

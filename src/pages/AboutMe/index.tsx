@@ -27,7 +27,7 @@ const Content = styled.div`
     }
 `;
 
-export const AboutMe = () => {
+export const AboutMe = React.memo(() => {
     const { data, error, isLoading } = useGetPageQuery("aboutme");
 
     React.useEffect(() => {
@@ -53,4 +53,4 @@ export const AboutMe = () => {
             )}
         </Content>
     );
-};
+});

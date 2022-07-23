@@ -1,3 +1,8 @@
+/**
+ * @description
+ * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
+ * @copyright Denis Kurochkin 2022
+ */
 import React from "react";
 import { useFormModal, schemaForm, modalEnum } from "components/Elements/CForm";
 
@@ -25,7 +30,7 @@ const schema: schemaForm = [
     },
 ];
 
-export const ModalFormSendMessage = ({
+export const ModalFormSendMessage = React.memo(({
     openFormModalCB,
 }: {
     openFormModalCB: (callback: any) => void;
@@ -48,4 +53,4 @@ export const ModalFormSendMessage = ({
         openFormModalCB(openFormModal)
     },[openFormModalCB, openFormModal])
     return <CFormModal {...{ schema, onSubmit }} />;
-};
+});

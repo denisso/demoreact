@@ -12,7 +12,7 @@ import { useIntersection } from "components/Tools/IntersectionOserver";
 import { PagesContext } from "./PagesContext";
 import { PagesContextType } from "./PagesContext";
 const MainMemo = React.memo(Main);
-export const Wrapper = () => {
+export const Wrapper = React.memo(() => {
     const { addNodes, removeNodes } = useIntersection();
 
     const context = React.useRef<PagesContextType>({
@@ -26,5 +26,5 @@ export const Wrapper = () => {
             <Footer />
         </PagesContext.Provider>
     );
-};
+});
 export const WrapperComponents = React.memo(Wrapper);

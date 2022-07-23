@@ -3,6 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
+import React from "react"
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { ErrorBoundary } from "components/Tools/ErrorBoundary";
@@ -20,7 +21,7 @@ const MainContainer = styled.div.attrs({ className: "container" })`
     min-height: 40vh;
 `;
 
-export const Main = () => {
+export const Main = React.memo(() => {
     const isReady = useGetReady();
     return (
         <MainWrapper>
@@ -34,4 +35,4 @@ export const Main = () => {
             </MainContainer>
         </MainWrapper>
     );
-};
+});

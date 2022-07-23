@@ -1,3 +1,9 @@
+/**
+ * @description Image without Lazy Loading
+ * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
+ * @copyright Denis Kurochkin 2022
+ */
+
 import { schemaForm, schemaField } from ".";
 import * as Yup from "yup";
 

@@ -1,3 +1,9 @@
+/**
+ * @description Image without Lazy Loading
+ * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
+ * @copyright Denis Kurochkin 2022
+ */
+
 import React from "react";
 import { CForm, CFormProps } from ".";
 import { useModal } from "../CModal";
@@ -35,7 +41,7 @@ export enum modalEnum {
     rejected,
 }
 
-const ModalComponent = ({
+const ModalComponent = React.memo(({
     title,
     onSubmit,
     schema,
@@ -145,7 +151,7 @@ const ModalComponent = ({
             </Container>
         </Modal>
     );
-};
+});
 
 export const useFormModal = (title?: string, options?: Partial<{}>) => {
     const refOpenFormModal = React.useRef<Partial<() => void>>();

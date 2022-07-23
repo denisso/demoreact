@@ -64,7 +64,7 @@ const HeaderWrapper = styled.header`
     }
 `;
 
-export const Header = withTheme(({ theme }: { theme: themeType }) => {
+const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
     const dispatch = useDispatch();
     const [isOpen, toggleOpen] = useCycle(false, true);
     const openFormModal = React.useRef<(arg: any) => void>((arg: any) => {});
@@ -130,3 +130,5 @@ export const Header = withTheme(({ theme }: { theme: themeType }) => {
         </>
     );
 });
+
+export const Header = React.memo(HeaderComponent)

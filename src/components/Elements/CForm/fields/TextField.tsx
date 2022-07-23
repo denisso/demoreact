@@ -1,3 +1,4 @@
+import React from "react"
 import { FormField } from "../FormField";
 import styled from "styled-components"
 
@@ -17,7 +18,7 @@ const IputStyled = styled.input`
 }
 `
 
-export const TextField = ({
+export const TextField = React.memo(({
     label,
     field: { name, value, ...fieldProps },
     form,
@@ -39,4 +40,4 @@ export const TextField = ({
             />
         </FormField>
     );
-};
+});
