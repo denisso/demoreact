@@ -96,7 +96,7 @@ const MenuWrapper = styled(ItemAnimatePresence)`
     }
 `;
 
-export const MobileMenu = ({
+export const MobileMenu = React.memo(({
     isOpen,
     toggleOpen,
 }: {
@@ -139,4 +139,4 @@ export const MobileMenu = ({
             </div>
         </MenuWrapper>
     );
-};
+});
