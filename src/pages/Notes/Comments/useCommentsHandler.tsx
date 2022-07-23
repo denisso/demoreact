@@ -78,7 +78,7 @@ export const useCommentsHandler = (noteSlug: string) => {
                     });
             }).catch((error) => ({ error: error.message }));
         },
-        []
+        [noteSlug]
     );
 
     React.useEffect(() => {
@@ -88,7 +88,7 @@ export const useCommentsHandler = (noteSlug: string) => {
                 setError(error);
             }
         });
-    }, []);
+    }, [dispatch]);
 
     return { data, error, isLoading, dispatch };
 };

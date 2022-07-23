@@ -20,7 +20,7 @@ const Container = styled.div`
             display: grid;
             place-items: center;
             background-color: ${({ theme }) => theme.colorRoot};
-            .Icon{
+            .Icon {
                 width: 3rem;
                 height: auto;
             }
@@ -71,7 +71,7 @@ const ModalComponent = ({
     const openModalCB = React.useCallback(() => {
         setSubmit(false);
         openModal();
-    }, []);
+    }, [openModal]);
     React.useEffect(() => {
         if (options?.middleware) {
             middlewareRef.current = true;
@@ -79,7 +79,7 @@ const ModalComponent = ({
         openFormModal(openModalCB);
         closeFormModal(closeModal);
         processFormModal(processFormModalCb);
-    }, []);
+    }, [openFormModal, closeFormModal, processFormModal, openModalCB, closeModal, processFormModalCb, options]);
     return (
         <Modal>
             <Container>
@@ -151,10 +151,23 @@ export const useFormModal = (title?: string, options?: Partial<{}>) => {
     const refOpenFormModal = React.useRef<Partial<() => void>>();
     const refCloseFormModal = React.useRef<Partial<() => void>>();
     const refProcessFormModal = React.useRef<Partial<() => void>>();
-
-    const openFormModal = React.useCallback(() => {
-        if (refOpenFormModal.current instanceof Function)
+    const refArgs = React.useRef<Partial<{}>>();
+    const refSubmitCb = React.useRef<Partial<(...args: any[]) => void>>();
+    /**
+     * 
+     */
+    const refOnSubmit = React.useCallback(
+        (...args) => {
+            if (refSubmitCb.current instanceof Function)
+                refSubmitCb.current(...args, refArgs.current);
+        },
+        [refSubmitCb]
+    );
+    const openFormModal = React.useCallback((args?: Partial<{}>) => {
+        if (refOpenFormModal.current instanceof Function) {
             refOpenFormModal.current();
+            refArgs.current = args;
+        }
     }, []);
     const closeFormModal = React.useCallback(() => {
         if (refCloseFormModal.current instanceof Function)
@@ -168,12 +181,14 @@ export const useFormModal = (title?: string, options?: Partial<{}>) => {
         },
         []
     );
+
     const CFormModal = React.useMemo(() => {
         return ({ schema, onSubmit }: CFormProps) => {
+            refSubmitCb.current = onSubmit;
             return (
                 <ModalComponent
                     schema={schema}
-                    onSubmit={onSubmit}
+                    onSubmit={refOnSubmit}
                     options={options}
                     openFormModal={(openFormModal: () => void) =>
                         (refOpenFormModal.current = openFormModal)
@@ -188,7 +203,7 @@ export const useFormModal = (title?: string, options?: Partial<{}>) => {
                 />
             );
         };
-    }, []);
+    }, [options, refOnSubmit, title]);
     return {
         CFormModal,
         openFormModal,

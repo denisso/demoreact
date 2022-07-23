@@ -85,8 +85,8 @@ export const GoogleButton = ({ className }: { className?: string }) => {
         useSelector(selectSignInState);
     const dispatch = useDispatch();
     const stateGoogle = useGoogleIdentityApi();
-
-    const { Modal, openModal, closeModal } = useModal("Your Account");
+    const modalTitle = React.useRef<string>("Your Account")
+    const { Modal, openModal, closeModal } = useModal(modalTitle.current);
 
     const buttonGoogleRef = React.useRef(null);
 
@@ -106,13 +106,13 @@ export const GoogleButton = ({ className }: { className?: string }) => {
         ) {
             renderButton();
         }
-    }, [isSignIn]);
+    }, [isSignIn, renderButton, stateGoogle]);
     React.useEffect(() => {
         if (stateGoogle === GoogleLoadingStates.GoogleApiInitialized) {
             renderButton();
             window.google.accounts.id.prompt();
         }
-    }, [stateGoogle]);
+    }, [stateGoogle, renderButton]);
 
     return (
         <div
@@ -123,7 +123,7 @@ export const GoogleButton = ({ className }: { className?: string }) => {
                     (isSignIn ? (
                         <div className="Icon SignOut" key={"SignOut"}>
                             <a
-                                href="#"
+                                href="/"
                                 onClick={(e: any) => {
                                     openModal(e);
                                 }}

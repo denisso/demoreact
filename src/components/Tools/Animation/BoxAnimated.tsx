@@ -105,13 +105,13 @@ export const BoxAnimated = ({ children, className }: any) => {
     React.useEffect(() => {
         // recreate elements
         refresh();
-    }, [children]);
+    }, [children, refresh]);
     React.useEffect(() => {
         return () => {
             // uninstall component
             uninstall();
         };
-    }, []);
+    }, [uninstall]);
     return (
         <div
             {...{ className }}

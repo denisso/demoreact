@@ -17,16 +17,16 @@ const Container = styled.div`
 export const PreLoader = () => {
     const dispatch = useDispatch();
     const { Modal, openModal, closeModal } = useModal("Welocome!");
-    const isReady = useGetReadyServer()
+    const isReady = useGetReadyServer();
     React.useEffect(() => {
         openModal();
-    }, []);
+    }, [openModal]);
     React.useEffect(() => {
         // first request in src\store\initStore.tsx
         if (isReady.value === false && isReady.counter > 0)
             setTimeout(() => dispatch(fetchGetReadyServer()), 1000);
         if (isReady.value === true) closeModal();
-    }, [isReady]);
+    }, [isReady, closeModal, dispatch]);
     return (
         <Modal>
             <Container>

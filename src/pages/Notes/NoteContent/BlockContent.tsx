@@ -122,7 +122,7 @@ export const BlockContent = ({
     // changing the index current header when scrolling
     React.useEffect(() => {
         setCurrentHeader(state.value);
-    }, [state]);
+    }, [state, setCurrentHeader]);
 
     // unmount component and remove nodes from intersector observer
     React.useEffect(() => {
@@ -131,7 +131,7 @@ export const BlockContent = ({
             refHeaders.current = [];
             setCurrentHeader(-1);
         };
-    }, []);
+    }, [intersect, refHeaders, setCurrentHeader]);
 
     // get intersection entry from intersection observer
     const handleHeader = React.useCallback(
@@ -142,16 +142,19 @@ export const BlockContent = ({
                 payload: { indxTriggered, entity },
             });
         },
-        [dispatch]
+        [dispatch, refHeaders]
     );
 
     // add nodes header to use intersect hook
-    const addNodeToIntersect = React.useCallback((node) => {
-        if (node) {
-            intersect.addNodes({ node, trigger: handleHeader });
-            refHeaders.current.push(node);
-        }
-    }, []);
+    const addNodeToIntersect = React.useCallback(
+        (node) => {
+            if (node) {
+                intersect.addNodes({ node, trigger: handleHeader });
+                refHeaders.current.push(node);
+            }
+        },
+        [handleHeader, intersect, refHeaders]
+    );
 
     // components for markdown
     const markdownComponents = React.useMemo(() => {
@@ -201,7 +204,9 @@ export const BlockContent = ({
                 // case ## [Header 1](#anchor-for-url-1)
                 if (node.children[0].type === "a")
                     return childrenAHREF({ node, className, children, props });
-            } catch (err) {}
+            } catch (err: any) {
+                console.error(err.message);
+            }
             // for other case
             return <></>;
         };
@@ -216,7 +221,7 @@ export const BlockContent = ({
                 return <ImageLazy {...props} />;
             },
         };
-    }, []);
+    }, [addNodeToIntersect]);
 
     return (
         <ArticleBox

@@ -59,26 +59,31 @@ export const NavHeadersMobile = ({
     currentHeaderRef.current = currentHeader;
     const { Modal, openModal, closeModal } = useModal("Choose section");
 
-    const onClickAnchor = React.useCallback(({ type, payload }: any) => {
-        if (refHeaders.current.length === 0) return;
-        let indx = currentHeaderRef.current;
-        switch (type) {
-            case "Prev":
-                indx = indx - 1 < 0 ? indx : indx - 1;
-                break;
-            case "Next":
-                indx =
-                    indx + 1 > refHeaders.current.length - 1 ? indx : indx + 1;
-                break;
-            case "ByIndx":
-                indx = payload;
-                break;
-            default:
-        }
-        scrollContent(refHeaders.current[indx].offsetTop);
+    const onClickAnchor = React.useCallback(
+        ({ type, payload }: any) => {
+            if (refHeaders.current.length === 0) return;
+            let indx = currentHeaderRef.current;
+            switch (type) {
+                case "Prev":
+                    indx = indx - 1 < 0 ? indx : indx - 1;
+                    break;
+                case "Next":
+                    indx =
+                        indx + 1 > refHeaders.current.length - 1
+                            ? indx
+                            : indx + 1;
+                    break;
+                case "ByIndx":
+                    indx = payload;
+                    break;
+                default:
+            }
+            scrollContent(refHeaders.current[indx].offsetTop);
 
-        closeModal()
-    }, []);
+            closeModal();
+        },
+        [closeModal, refHeaders]
+    );
     if (currentHeader < 0) {
         return <></>;
     }

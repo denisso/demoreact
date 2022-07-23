@@ -6,7 +6,7 @@
 
 import React from "react";
 import { up } from "styled-breakpoints";
-import styled, { withTheme, css } from "styled-components";
+import styled, { withTheme } from "styled-components";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useCycle } from "framer-motion";
@@ -71,8 +71,12 @@ export const Header = withTheme(({ theme }: { theme: themeType }) => {
     React.useEffect(() => {
         // mobile menu must be close in desktop mode
         if (mUp("md", theme.breakpoint) && isOpen) toggleOpen();
-    }, [theme.breakpoint]);
+    }, [theme.breakpoint, isOpen, toggleOpen]);
 
+    const trigger = React.useCallback(
+        (name: string) => dispatch(switchTheme({ themeName: name })),
+        [dispatch]
+    );
     return (
         <>
             <HeaderWrapper>
@@ -111,12 +115,7 @@ export const Header = withTheme(({ theme }: { theme: themeType }) => {
                                 className="Icon"
                             />
                         </Anchor>
-                        <ThemeSwitcher
-                            size={"1.6rem"}
-                            trigger={(name: string) =>
-                                dispatch(switchTheme({ themeName: name }))
-                            }
-                        />
+                        <ThemeSwitcher size={"1.6rem"} trigger={trigger} />
 
                         <AccountComponent />
                     </div>

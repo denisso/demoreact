@@ -10,7 +10,7 @@ import { setProp } from "features/settings/reducer";
 export const useIntersection = () => {
     const refArrayNodes = React.useRef(new Map());
     const refObserver = React.useRef<any>(null);
-    const [ready, setReady] = React.useState(false)
+
     const dispatch = useDispatch();
     React.useEffect(() => {
         const options = {
@@ -34,27 +34,36 @@ export const useIntersection = () => {
                 }
             }
         }, options);
-        setReady(true)
-        dispatch(setProp({id: "isReadyObserver", value: true}))
-    }, []);
+
+        dispatch(setProp({ id: "isReadyObserver", value: true }));
+    }, [dispatch]);
 
     const addNodes = React.useCallback(
-        ({ node, trigger }: { node: any; trigger: ({}) => any }) => {
+        ({
+            node,
+            trigger,
+        }: {
+            node: any;
+            trigger: ({
+                entity,
+                unobserve,
+            }: {
+                entity: IntersectionObserverEntry;
+                unobserve: () => {};
+            }) => void;
+        }) => {
             refObserver.current.observe(node);
             if (node !== null) refArrayNodes.current.set(node, trigger);
         },
         []
     );
 
-    const removeNodes = React.useCallback(
-        (node) => {
-            refObserver.current.unobserve(node);
-            if (refArrayNodes.current.has(node)) {
-                refArrayNodes.current.delete(node);
-            }
-        },
-        []
-    );
+    const removeNodes = React.useCallback((node) => {
+        refObserver.current.unobserve(node);
+        if (refArrayNodes.current.has(node)) {
+            refArrayNodes.current.delete(node);
+        }
+    }, []);
     return {
         addNodes,
         removeNodes,

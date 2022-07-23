@@ -28,7 +28,7 @@ const schema: schemaForm = [
 export const ModalFormSendMessage = ({
     openFormModalCB,
 }: {
-    openFormModalCB: (arg: any) => void;
+    openFormModalCB: (callback: any) => void;
 }) => {
     const { CFormModal, openFormModal, processFormModal } =
         useFormModal("Fake Send message (under development)", {
@@ -42,10 +42,10 @@ export const ModalFormSendMessage = ({
                 setSubmitting(false);
             }, 1400);
         },
-        []
+        [processFormModal]
     );
     React.useEffect(()=>{
         openFormModalCB(openFormModal)
-    },[])
+    },[openFormModalCB, openFormModal])
     return <CFormModal {...{ schema, onSubmit }} />;
 };

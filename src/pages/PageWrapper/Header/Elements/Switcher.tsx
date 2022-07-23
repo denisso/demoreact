@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
@@ -62,14 +62,14 @@ const spring = {
     stiffness: 700,
     damping: 30,
 };
-export const ThemeSwitcher = ({ trigger, size }: any) => {
+export const ThemeSwitcher = React.memo(({ trigger, size }: any) => {
     const [theme, toggleTheme] = useCycle("Light", "Dark");
     const toggleSwitch = () => {
         toggleTheme();
     };
     React.useEffect(() => {
         trigger(theme);
-    }, [theme]);
+    }, [theme, trigger]);
     return (
         <Component data-ison={theme} onClick={toggleSwitch} size={size}>
             <motion.div className="handle" layout transition={spring}>
@@ -78,4 +78,4 @@ export const ThemeSwitcher = ({ trigger, size }: any) => {
             </motion.div>
         </Component>
     );
-};
+});

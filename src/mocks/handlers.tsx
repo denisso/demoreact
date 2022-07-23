@@ -11,7 +11,6 @@ import { aboutme } from "./data/aboutme";
 import {
     comments,
     CommentsHandlerServer,
-    CommentDataType,
     CommentsSlugType,
 } from "./data/notes-comments";
 import { users, UsersType } from "./data/users";
@@ -37,18 +36,17 @@ export const handlers = [
         const { page } = req.params as { page: string };
         const pageNum = parseInt(page);
         const data = NotesModule.data();
-        const pageNumMax = Math.floor(data.length / 10)
+        const pageNumMax = Math.floor(data.length / 10);
         if (isNaN(pageNum) || pageNum > pageNumMax)
             return res(
                 ctx.json({ notes: [], pageNum, pageNumMax, last: true }),
                 ctx.delay(400)
             );
-        let last = false;
+
         const perPage = 10;
-        
+
         const indxMax = perPage * pageNum + perPage;
-        let indxLast =
-            indxMax < data.length ? indxMax : ((last = true), data.length);
+        let indxLast = indxMax < data.length ? indxMax : data.length;
 
         const notes: any[] = [];
 
@@ -67,7 +65,15 @@ export const handlers = [
             });
         }
 
-        return res(ctx.json({ notes, pageNum, pageNumMax, last: pageNum >= pageNumMax}), ctx.delay(400));
+        return res(
+            ctx.json({
+                notes,
+                pageNum,
+                pageNumMax,
+                last: pageNum >= pageNumMax,
+            }),
+            ctx.delay(400)
+        );
     }),
     //
     rest.get("/api/note/:noteslug", (req, res, ctx) => {

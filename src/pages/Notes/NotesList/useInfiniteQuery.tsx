@@ -27,7 +27,7 @@ function reducer(
         error: payload.error,
         last: payload.last,
     };
-    
+
     if (!payload.last) stateNew.data = state.data.concat(payload.data);
     return stateNew;
 }
@@ -45,15 +45,15 @@ export const useInfiniteQuery = () => {
 
     const page = React.useRef(0);
 
-    const getQuery = () => {
+    const getQuery = React.useCallback(() => {
         setLoading(true);
         trigger(page.current);
         page.current++;
-    }
+    }, [setLoading, trigger]);
 
     React.useEffect(() => {
-        getQuery()
-    }, []);
+        getQuery();
+    }, [getQuery]);
     React.useEffect(() => {
         if (result.isSuccess && !result.isFetching) {
             setState({
@@ -72,9 +72,9 @@ export const useInfiniteQuery = () => {
     }, [result]);
     const fetchNextPage = React.useCallback(() => {
         if (!state.last) {
-            getQuery()
+            getQuery();
         }
-    }, [state]);
+    }, [state, getQuery]);
     return {
         error: state.error,
         last: state.last,

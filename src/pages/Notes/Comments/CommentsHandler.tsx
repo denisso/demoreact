@@ -155,7 +155,6 @@ export const CommentsHandler = (inputData: {
             }),
         deleteRes: (req: any, res: any) =>
             handleError(() => {
-                const { reqid }: any = req;
                 const { commentid }: any = res;
                 return handleComment(
                     commentid,
@@ -191,7 +190,6 @@ export const CommentsHandler = (inputData: {
             }),
         updateRes: (req: any, res: any) =>
             handleError(() => {
-                const { reqid }: any = req;
                 const { commentid }: any = res;
                 return handleComment(
                     commentid,

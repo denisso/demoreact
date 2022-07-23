@@ -60,7 +60,7 @@ export const NavHeadersDesktop = ({
 
         refAnchors.current[currentHeader] &&
             refAnchors.current[currentHeader].classList.add("active");
-    }, [currentHeader]);
+    }, [currentHeader, refHeaders]);
     if (currentHeader < 0) {
         return <></>;
     }

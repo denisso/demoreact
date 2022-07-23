@@ -26,17 +26,20 @@ export const useGoogleIdentityApi = () => {
         GoogleLoadingStates.NotLoaded
     );
     const dispatch = useDispatch();
-    const handleCredentialResponse = React.useCallback((response) => {
-        const credentialGoogle: any = parseJwt(response.credential);
-        const credentials: CredentialsType = {
-            id: credentialGoogle.sub,
-            name: credentialGoogle.name,
-            email: credentialGoogle.email,
-            picture: credentialGoogle.picture,
-        };
-        dispatch(signIn(credentials));
-        dispatch(postUserCredentials(credentials));
-    }, []);
+    const handleCredentialResponse = React.useCallback(
+        (response) => {
+            const credentialGoogle: any = parseJwt(response.credential);
+            const credentials: CredentialsType = {
+                id: credentialGoogle.sub,
+                name: credentialGoogle.name,
+                email: credentialGoogle.email,
+                picture: credentialGoogle.picture,
+            };
+            dispatch(signIn(credentials));
+            dispatch(postUserCredentials(credentials));
+        },
+        [dispatch]
+    );
 
     React.useEffect(() => {
         switch (stateGoogle) {
@@ -68,7 +71,7 @@ export const useGoogleIdentityApi = () => {
                 }, 200);
                 break;
         }
-    }, [stateGoogle]);
+    }, [stateGoogle, handleCredentialResponse]);
 
     return stateGoogle;
 };

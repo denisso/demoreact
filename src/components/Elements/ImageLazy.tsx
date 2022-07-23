@@ -7,7 +7,7 @@ import React from "react";
 import { PagesContext } from "pages";
 import styled from "styled-components";
 
-const Image = ({ src, alt, width, height, ...props }: any) => {
+const Image = React.memo(({ src, alt, width, height, ...props }: any) => {
     const { intersect } = React.useContext(PagesContext);
     const node = React.useRef<HTMLImageElement>();
     const [isIntersecting, setIntersecting] = React.useState(false);
@@ -27,7 +27,7 @@ const Image = ({ src, alt, width, height, ...props }: any) => {
         if (!isNaN(height)) attrs.height = height;
 
         return attrs;
-    }, []);
+    }, [alt, height, width]);
     const trigger = React.useCallback(({ entity, unobserve }: any) => {
         if (!node.current || !entity.isIntersecting) return;
         setIntersecting(true);
@@ -39,12 +39,12 @@ const Image = ({ src, alt, width, height, ...props }: any) => {
             node.current = nodeImg;
             intersect.addNodes({ node: node.current, trigger });
         }
-    }, []);
+    }, [intersect, trigger]);
     React.useEffect(() => {
         return () => {
             intersect.removeNodes(node.current);
         };
-    }, []);
+    }, [intersect]);
     const onError = React.useCallback(() => {
         if (!node.current) return;
         node.current.src = "/asset/imageLoadingProblem.svg";
@@ -58,6 +58,7 @@ const Image = ({ src, alt, width, height, ...props }: any) => {
 
     return (
         <img
+            alt={alt}
             ref={onLoadRef}
             {...(isIntersecting ? { src } : {})}
             {...props}
@@ -66,7 +67,7 @@ const Image = ({ src, alt, width, height, ...props }: any) => {
             onError={onError}
         />
     );
-};
+});
 
 export const ImageLazy = styled(Image)`
     opacity: 0;

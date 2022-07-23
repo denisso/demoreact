@@ -43,21 +43,6 @@ const Content = styled.div`
     }
 `;
 
-function init(initialCount: boolean) {
-    return { state: initialCount };
-}
-
-function reducer(state: any, action: any) {
-    switch (action.type) {
-        case "observe":
-            return { state: true };
-        case "unobserve":
-            return { state: false };
-        default:
-            throw new Error();
-    }
-}
-
 export const NotesListWithFilter = () => {
     const { intersect }: PagesContextType = React.useContext(PagesContext);
     React.useEffect(() => {
@@ -76,7 +61,7 @@ export const NotesListWithFilter = () => {
                 fetchNextPage();
             }
         },
-        [fetchNextPage]
+        [fetchNextPage, intersect]
     );
 
     const infinityCallback = React.useCallback(() => {
@@ -86,7 +71,7 @@ export const NotesListWithFilter = () => {
         if (infinity && !last && !error && !isLoading) {
             intersect.addNodes({ node: triggerElement.current, trigger });
         }
-    }, [infinity, last, error, isLoading]);
+    }, [infinity, last, error, isLoading, intersect, trigger]);
     return (
         <Content>
             <ItemAnimatePresence>

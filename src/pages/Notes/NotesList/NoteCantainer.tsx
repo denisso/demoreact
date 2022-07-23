@@ -103,7 +103,7 @@ const NoteContainer = ({ noteData, infinity }: any) => {
                         }}
                     >
                         <div className="NoteImage">
-                            <img src={noteData.icon} alt={"article image"} />
+                            <img src={noteData.icon} alt={"article"} />
                         </div>
                         <div className="NoteContent">
                             <div className="NoteTitle">{noteData.title}</div>

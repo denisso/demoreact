@@ -84,7 +84,6 @@ const ModalStyled = styled.div<{ show: boolean; scrollbarwidth: number }>`
 `;
 
 export const useModal = (title?: string) => {
-    const refModal = React.useRef<any>(null);
     const dispatch = useDispatch();
 
     const refShowHide = React.useRef(
@@ -103,11 +102,11 @@ export const useModal = (title?: string) => {
         })()
     );
 
-    const openModal = React.useCallback((e?: any) => {
+    const openModal = React.useCallback((e?: Event) => {
         if (e) e.preventDefault();
         refShowHide.current.setShow(true);
     }, []);
-    const closeModal = React.useCallback((e?: any) => {
+    const closeModal = React.useCallback((e?: Event) => {
         if (e) e.preventDefault();
         refShowHide.current.setShow(false);
     }, []);
@@ -133,7 +132,7 @@ export const useModal = (title?: string) => {
             return <CModal {...{ show, title }}>{children}</CModal>;
         };
         return ComponentConstructor;
-    }, []);
+    }, [dispatch, title]);
     return {
         Modal,
         openModal,

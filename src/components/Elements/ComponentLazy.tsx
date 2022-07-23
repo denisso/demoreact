@@ -37,13 +37,13 @@ export const ComponentLazy = React.memo(({ className, children }: any) => {
                 intersect.removeNodes(componentRef.current);
             }
         };
-    }, []);
+    }, [intersect]);
     const componentRefCb = React.useCallback((node: any) => {
         if (node) {
             componentRef.current = node;
             intersect.addNodes({ node, trigger });
         }
-    }, []);
+    }, [intersect, trigger]);
 
     return (
         <Wrapper

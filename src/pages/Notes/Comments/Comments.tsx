@@ -8,8 +8,6 @@ import { Avatar } from "components/Elements/Avatar";
 import styled from "styled-components";
 import { CommentButtons } from "./CommentButtons";
 import { CommentDataType } from "mocks/data/notes-comments";
-import { Context } from "./Context";
-import React from "react";
 
 const CommentStyled = styled.div.attrs({ className: "CommentContainer" })`
     display: flex;
@@ -82,8 +80,6 @@ const Comment = ({
     comment: CommentDataType;
     children?: any | any[];
 }) => {
-    const { commentid }: any = React.useContext(Context);
-
     return (
         <CommentStyled>
             <div className="Comment" id={comment.commentid}>

@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-export const Image = ({ src, ...props }: any) => {
+export const Image = React.memo(({ src, alt, ...props }: any) => {
     const [uri, setUri] = React.useState(src);
     const errorLoading = React.useRef(false);
     const onError = () => {
@@ -15,6 +15,6 @@ export const Image = ({ src, ...props }: any) => {
     };
     React.useEffect(() => {
         if (!src) setUri("/asset/imageLoadingProblem.svg");
-    }, []);
-    return <img src={uri} {...props} onError={onError} />;
-};
+    }, [src]);
+    return <img src={uri} alt={alt} {...props} onError={onError} />;
+});

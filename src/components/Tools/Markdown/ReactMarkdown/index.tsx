@@ -30,9 +30,10 @@ const MarkdownComponent = ({ markdown, className, components }: any) => {
             <ReactMarkdown
                 remarkPlugins={[remarkDirective, customTagsPlugin]}
                 rehypePlugins={[rehypeHighlight]}
-                children={markdown}
                 components={components}
-            />
+            >
+                {markdown}
+            </ReactMarkdown>
         </div>
     );
 };

@@ -22,5 +22,5 @@ export const useResizeObserver = () => {
 
             resizeObserver.observe(document.documentElement);
         }
-    }, []);
+    }, [dispatch]);
 };

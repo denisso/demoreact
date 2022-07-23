@@ -7,4 +7,6 @@
 
 import { fetchWrapper } from "tools/fetchWrapper";
 
-export default () => setInterval(()=>fetchWrapper("/api/keepalive"), 30000)
+const pingpong = () => setInterval(() => fetchWrapper("/api/keepalive"), 30000);
+
+export default pingpong;
