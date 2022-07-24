@@ -17,6 +17,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectSignInState } from "features/accounts/reducer";
 import { CommentDataType } from "mocks/data/notes-comments";
+import { operationType } from "./useCommentsHandler";
 const CommentButtonsStyled = styled.div`
     display: flex;
     .CommentControlButtons {
@@ -62,7 +63,9 @@ export const CommentButtons = React.memo(
         // uses as shared varable between button action,
         // then middleware form,
         // then use this typeAction in handler submit
-        const refTypeAction = React.useRef<string | null>("");
+        const refTypeAction = React.useRef<operationType>(
+            operationType.undefined
+        );
         const [disable, setDisable] = React.useState(1);
         const disableRef = React.useRef<number>(disable);
         disableRef.current = disable;
@@ -84,9 +87,9 @@ export const CommentButtons = React.memo(
                 setShowReplyForm(false);
                 dispatch({
                     type:
-                        refTypeAction.current === "insert"
-                            ? "insert"
-                            : "update",
+                        refTypeAction.current === operationType.insert
+                            ? operationType.insert
+                            : operationType.update,
                     payload: {
                         parentid: comment.parentid || comment.commentid,
                         commentid: comment.commentid,
@@ -103,14 +106,14 @@ export const CommentButtons = React.memo(
         const onCancel = React.useCallback(() => {
             if (disableRef.current) return;
             setCurrentComment("");
-            refTypeAction.current = null;
+            refTypeAction.current = operationType.undefined;
             setShowReplyForm(false);
         }, [setCurrentComment]);
         // delete comment
         const onDelete = React.useCallback(() => {
             if (disableRef.current) return;
             dispatch({
-                type: "delete",
+                type: operationType.delete,
                 payload: {
                     commentid: comment.commentid,
                 },
@@ -119,14 +122,14 @@ export const CommentButtons = React.memo(
         // open form for update
         const onUpdate = React.useCallback(() => {
             if (disableRef.current) return;
-            refTypeAction.current = "update";
+            refTypeAction.current = operationType.update;
             setShowReplyForm(true);
             setCurrentComment(comment.commentid);
         }, [comment, setCurrentComment]);
         // open form for reply
         const onReply = React.useCallback(() => {
             if (disableRef.current) return;
-            refTypeAction.current = "insert";
+            refTypeAction.current = operationType.insert;
             setShowReplyForm(true);
             setCurrentComment(comment.commentid);
         }, [comment, setCurrentComment]);
@@ -183,7 +186,7 @@ export const ReplyButton = React.memo(
             (values: any, actions: any) => {
                 actions.resetForm();
                 dispatch({
-                    type: "insert",
+                    type: operationType.insert,
                     payload: {
                         comment: values.message,
                     },

@@ -73,47 +73,55 @@ const CommentStyled = styled.div.attrs({ className: "CommentContainer" })`
     }
 `;
 
-const Comment = ({
-    comment,
-    children,
-}: {
-    comment: CommentDataType;
-    children?: any | any[];
-}) => {
-    return (
-        <CommentStyled>
-            <div className="Comment" id={comment.commentid}>
-                <div className="CommentInfoData">
-                    <div className="CommentHash">
-                        Comment id:{" "}
-                        <a href={"#" + comment.commentid}>
-                            {"#" + comment.commentid}
-                        </a>
+const Comment = React.memo(
+    ({
+        comment,
+        children,
+    }: {
+        comment: CommentDataType;
+        children?: any | any[];
+    }) => {
+        return (
+            <CommentStyled>
+                <div className="Comment" id={comment.commentid}>
+                    <div className="CommentInfoData">
+                        <div className="CommentHash">
+                            Comment id:{" "}
+                            <a href={"#" + comment.commentid}>
+                                {"#" + comment.commentid}
+                            </a>
+                        </div>
                     </div>
+                    <div className="CommentContent">{comment.comment}</div>
+                    <div className="CommentInfoData">
+                        <Avatar
+                            className="CommentAvatar"
+                            src={comment.picture}
+                        />
+                        <div className="CommentUserName">
+                            <b>{comment.name}</b>
+                        </div>
+                        <div className="CommentDate">
+                            {comment.date &&
+                                "Published at : " +
+                                    new Date(
+                                        Number(comment.date) || Date.now()
+                                    ).toUTCString()}
+                        </div>
+                    </div>
+                    <CommentButtons
+                        className="CommentButtons"
+                        {...{ comment }}
+                    />
                 </div>
-                <div className="CommentContent">{comment.comment}</div>
-                <div className="CommentInfoData">
-                    <Avatar className="CommentAvatar" src={comment.picture} />
-                    <div className="CommentUserName">
-                        <b>{comment.name}</b>
-                    </div>
-                    <div className="CommentDate">
-                        {comment.date &&
-                            "Published at : " +
-                                new Date(
-                                    Number(comment.date) || Date.now()
-                                ).toUTCString()}
-                    </div>
-                </div>
-                <CommentButtons className="CommentButtons" {...{ comment }} />
-            </div>
 
-            {children}
-        </CommentStyled>
-    );
-};
-
-export const CommentsRender = React.memo(
+                {children}
+            </CommentStyled>
+        );
+    }
+);
+Comment.displayName = "Comment";
+const CommentsRender = React.memo(
     ({ comments }: { comments: CommentDataType[] }) => {
         return (
             <>
@@ -150,3 +158,5 @@ export const CommentsRender = React.memo(
         );
     }
 );
+CommentsRender.displayName = "CommentsRender";
+export { CommentsRender };

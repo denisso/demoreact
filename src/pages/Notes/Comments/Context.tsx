@@ -1,12 +1,13 @@
 /**
- * @description 
+ * @description
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
 
 import React from "react";
+import { operationType } from "./useCommentsHandler";
 
-export const Context = React.createContext({
+export type contextType = {
     /**
      * dispatch actions to manage CRUD operations of comments
      * Examples:
@@ -16,11 +17,19 @@ export const Context = React.createContext({
      * dispatch ({type: "delete", payload: {idcomment: "id comment"} }) - delete comment
      * dispatch ({type: "update", payload: {idcomment: "id comment", comment: "new string comment"} }) - update comment
      */
-    dispatch: () => {},
+    dispatch: (arg: { type: operationType; payload?: Partial<{}> }) => void;
     /**
      * Used to control the display of the comment dialog
      * const [currentComment, setCurrentComment] = React.useState(null);
+     * currentComment: string|null
+     * setCurrentComment: (string)=>void
      */
-    currentComment: null,
+    currentComment: string;
+    setCurrentComment: (arg: string) => void;
+};
+
+export const Context = React.createContext<contextType>({
+    dispatch: () => {},
+    currentComment: "",
     setCurrentComment: () => {},
-} as any);
+});

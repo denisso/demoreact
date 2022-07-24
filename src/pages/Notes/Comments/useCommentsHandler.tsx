@@ -1,5 +1,5 @@
 /**
- * @description 
+ * @description
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
@@ -9,19 +9,28 @@ import { CommentDataType } from "mocks/data/notes-comments";
 
 type ReqResData = { error: any; payload?: any };
 
+export enum operationType {
+    undefined = "undefined",
+    init = "init",
+    insert = "insert",
+    delete = "delete",
+    update = "update",
+}
+
 export const useCommentsHandler = (noteSlug: string) => {
-    const [data, setData]: any = React.useState<{
+    const [data, setData] = React.useState<{
         comments: CommentDataType[];
         numComments: number;
     }>({
         comments: [],
         numComments: 0,
     });
-    const [error, setError] = React.useState(null);
+    const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setLoading] = React.useState(false);
+    // to update the data inside dispatch and not add a dependency to avoid re-creating the function dispatch
     const dataRef = React.useRef(data);
     const dispatch = React.useCallback(
-        async ({ type, payload }: { type: string; payload?: {} }) => {
+        async ({ type, payload }: { type: operationType; payload?: {} }) => {
             // request
             let req: ReqResData = {
                 error: false,
@@ -29,13 +38,19 @@ export const useCommentsHandler = (noteSlug: string) => {
             };
 
             try {
-                if (type === "init") {
+                if (type === operationType.init) {
                     setLoading(true);
-                } else {
+                } else if (
+                    CommentsHandler(dataRef.current)[`${type}Req`] instanceof
+                    Function
+                ) {
                     req = CommentsHandler(dataRef.current)[`${type}Req`](
                         payload
                     );
-                    setData({ ...dataRef.current });
+                    setData({
+                        comments: [...dataRef.current.comments],
+                        numComments: dataRef.current.numComments,
+                    });
                 }
             } catch (err) {
                 req.error = "Req: type action not exist (err: werer4458)";
@@ -45,7 +60,7 @@ export const useCommentsHandler = (noteSlug: string) => {
             return new Promise((resolve) => {
                 if (req.error) throw new Error(req.error);
                 let optionsFetch = {};
-                if (type !== "init") {
+                if (type !== operationType.init) {
                     optionsFetch = {
                         method: "POST",
                         body: JSON.stringify({ type, payload }),
@@ -59,7 +74,7 @@ export const useCommentsHandler = (noteSlug: string) => {
                             throw new Error("Res: " + responseData.error);
                         }
 
-                        if (type === "init") {
+                        if (type === operationType.init) {
                             dataRef.current = responseData.payload;
                             setData({ ...dataRef.current });
                             resolve({ error: false });
@@ -82,12 +97,14 @@ export const useCommentsHandler = (noteSlug: string) => {
     );
 
     React.useEffect(() => {
-        dispatch({ type: "init" }).then(({ error, payload }: any) => {
-            setLoading(false);
-            if (error) {
-                setError(error);
+        dispatch({ type: operationType.init }).then(
+            ({ error, payload }: any) => {
+                setLoading(false);
+                if (error) {
+                    setError(error);
+                }
             }
-        });
+        );
     }, [dispatch]);
 
     return { data, error, isLoading, dispatch };
