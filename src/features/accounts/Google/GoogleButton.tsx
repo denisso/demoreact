@@ -124,8 +124,8 @@ export const GoogleButton = React.memo(({ className }: { className?: string }) =
                         <div className="Icon SignOut" key={"SignOut"}>
                             <a
                                 href="/"
-                                onClick={(e: any) => {
-                                    openModal(e);
+                                onClick={() => {
+                                    openModal();
                                 }}
                             >
                                 <div className="pictureUser">
@@ -163,8 +163,8 @@ export const GoogleButton = React.memo(({ className }: { className?: string }) =
 
                         <div className="ModalFooter">
                             <Button
-                                onClick={(e: any) => {
-                                    closeModal(e);
+                                onClick={() => {
+                                    closeModal();
                                 }}
                             >
                                 Close
@@ -190,7 +190,7 @@ export const GoogleButton = React.memo(({ className }: { className?: string }) =
                                             );
                                         }
                                     );
-                                    closeModal(e);
+                                    closeModal();
                                 }}
                             >
                                 Exit{" "}

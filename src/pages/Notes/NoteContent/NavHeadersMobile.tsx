@@ -97,8 +97,8 @@ export const NavHeadersMobile = ({
                         Prev
                     </Button>
                     <Button
-                        onClick={(e: any) => {
-                            openModal(e);
+                        onClick={() => {
+                            openModal();
                         }}
                     >
                         Current: {refHeaders.current[currentHeader]?.innerText}
@@ -129,8 +129,8 @@ export const NavHeadersMobile = ({
                     </div>
                     <div className="NavFooter">
                         <Button
-                            onClick={(e: any) => {
-                                closeModal(e);
+                            onClick={() => {
+                                closeModal();
                             }}
                         >
                             Close

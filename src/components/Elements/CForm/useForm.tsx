@@ -107,8 +107,8 @@ const ModalComponent = React.memo(({
                                     }
                                     if (!submit) onSubmit(...args);
                                 },
-                                onCancel: (e) => {
-                                    if (!submit) closeModal(e);
+                                onCancel: () => {
+                                    if (!submit) closeModal();
                                 },
                             }}
                         />
