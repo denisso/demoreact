@@ -86,29 +86,13 @@ const ModalStyled = styled.div<{ show: boolean; scrollbarwidth: number }>`
 export const useModal = (title?: string) => {
     const dispatch = useDispatch();
 
-    const refShowHide = React.useRef(
-        (() => {
-            let _handler: (arg?: any) => void = () => {};
-            let addHandler = (handler: (arg?: any) => void) => {
-                _handler = handler;
-            };
-            const setShow = (show: boolean) => {
-                if (_handler) _handler(show);
-            };
-            return {
-                addHandler,
-                setShow,
-            };
-        })()
-    );
+    const refShowHide = React.useRef<Partial<(arg: boolean) => void>>();
 
-    const openModal = React.useCallback((e?: Event) => {
-        if (e) e.preventDefault();
-        refShowHide.current.setShow(true);
+    const openModal = React.useCallback(() => {
+        if (refShowHide.current instanceof Function) refShowHide.current(true);
     }, []);
-    const closeModal = React.useCallback((e?: Event) => {
-        if (e) e.preventDefault();
-        refShowHide.current.setShow(false);
+    const closeModal = React.useCallback(() => {
+        if (refShowHide.current instanceof Function) refShowHide.current(false);
     }, []);
 
     const Modal = React.useMemo(() => {
@@ -127,7 +111,7 @@ export const useModal = (title?: string) => {
                         })
                     );
                 };
-                refShowHide.current.addHandler(handleSetNewState);
+                refShowHide.current = handleSetNewState;
             }, []);
             return <CModal {...{ show, title }}>{children}</CModal>;
         };
@@ -140,53 +124,58 @@ export const useModal = (title?: string) => {
     };
 };
 
-export const CModal = React.memo(({
-    title,
-    show,
-    children,
-    className,
-}: {
-    title?: string;
-    className?: string;
-    show: boolean;
-    children?: any;
-}) => {
-    const [display, setDisplay] = React.useState(false);
-    const clickedClose = React.useRef(false);
+export const CModal = React.memo(
+    ({
+        title,
+        show,
+        children,
+        className,
+    }: {
+        title?: string;
+        className?: string;
+        show: boolean;
+        children?: any;
+    }) => {
+        const [display, setDisplay] = React.useState(false);
+        const clickedClose = React.useRef(false);
 
-    // hide modal after end animation fadeout
-    const onAnimationEnd = () => {
-        if (!show) setDisplay(false);
-    };
+        // hide modal after end animation fadeout
+        const onAnimationEnd = () => {
+            if (!show) setDisplay(false);
+        };
 
-    React.useEffect(() => {
-        // initialize modal window and start animation fadeIn
-        if (show) {
-            setDisplay(true);
-            clickedClose.current = false;
-        }
-    }, [show]);
+        React.useEffect(() => {
+            // initialize modal window and start animation fadeIn
+            if (show) {
+                setDisplay(true);
+                clickedClose.current = false;
+            }
+        }, [show]);
 
-    return ReactDOM.createPortal(
-        <>
-            {display && (
-                <ModalStyled
-                    show={show}
-                    scrollbarwidth={
-                        window.innerWidth - document.body.clientWidth
-                    }
-                    className="modalOverlay"
-                    {...{ onAnimationEnd }}
-                >
-                    <div className="modalBox">
-                        <header className="modalHeader">
-                            {title && <div className="modalTitle">{title}</div>}
-                        </header>
+        return ReactDOM.createPortal(
+            <>
+                {display && (
+                    <ModalStyled
+                        show={show}
+                        scrollbarwidth={
+                            window.innerWidth - document.body.clientWidth
+                        }
+                        className="modalOverlay"
+                        {...{ onAnimationEnd }}
+                    >
+                        <div className="modalBox">
+                            <header className="modalHeader">
+                                {title && (
+                                    <div className="modalTitle">{title}</div>
+                                )}
+                            </header>
 
-                        <div {...{ className }}>{children}</div>
-                    </div>
-                </ModalStyled>
-            )}
-        </>
-    , document.body);
-});
+                            <div {...{ className }}>{children}</div>
+                        </div>
+                    </ModalStyled>
+                )}
+            </>,
+            document.body
+        );
+    }
+);
