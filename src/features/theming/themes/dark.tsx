@@ -20,7 +20,7 @@ const colors: colorsType = {
     secondLightMore: "#980000",
     third: "#ff8843",
     thirdLight: "#e97618",
-    thirdLightMore: "#ff8352",
+    thirdLightMore: "#7e2e0e",
     fourth: "#6d6dff",
     fourthLight: "#14437c",
     fourthLightMore: "#1a1b53",
