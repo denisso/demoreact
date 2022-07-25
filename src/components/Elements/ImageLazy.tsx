@@ -34,15 +34,18 @@ const Image = React.memo(({ src, alt, width, height, ...props }: any) => {
         unobserve();
     }, []);
 
-    const onLoadRef = React.useCallback((nodeImg: any) => {
-        if (nodeImg && !node.current) {
-            node.current = nodeImg;
-            intersect.addNodes({ node: node.current, trigger });
-        }
-    }, [intersect, trigger]);
+    const onLoadRef = React.useCallback(
+        (nodeImg: HTMLImageElement) => {
+            if (nodeImg && !node.current) {
+                node.current = nodeImg;
+                intersect.addNodes({ node: node.current, trigger });
+            }
+        },
+        [intersect, trigger]
+    );
     React.useEffect(() => {
         return () => {
-            intersect.removeNodes(node.current);
+            if (node.current) intersect.removeNodes(node.current);
         };
     }, [intersect]);
     const onError = React.useCallback(() => {
