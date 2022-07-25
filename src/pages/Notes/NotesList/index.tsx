@@ -68,7 +68,7 @@ export const NotesListWithFilter = React.memo(() => {
         setInfinity(true);
     }, []);
     React.useEffect(() => {
-        if (infinity && !last && !error && !isLoading) {
+        if (infinity && !last && !error && !isLoading && triggerElement.current) {
             intersect.addNodes({ node: triggerElement.current, trigger });
         }
     }, [infinity, last, error, isLoading, intersect, trigger]);

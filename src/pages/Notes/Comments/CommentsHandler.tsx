@@ -1,11 +1,11 @@
 /**
- * @description 
+ * @description
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
 
 import { CommentDataType } from "mocks/data/notes-comments";
-
+import { operationEnum } from "./useCommentsHandler";
 function createUIDReq() {
     return "Req" + Date.now();
 }
@@ -16,6 +16,12 @@ function createUIDReq() {
  * @param arr
  * @returns
  */
+export enum processingEnum {
+    noProcessing = "noProcessing",
+    new = "new",
+    delete = "delete",
+    update = "update",
+}
 
 export const CommentsHandler = (inputData: {
     comments: CommentDataType[];
@@ -46,7 +52,7 @@ export const CommentsHandler = (inputData: {
     const handleComment = (
         commentid: string | undefined,
         cb: cbFuntionType,
-        child: boolean = false // for optimization
+        child: boolean = false
     ) => {
         if (commentid === undefined) {
             return cb({ array: inputData.comments });
@@ -86,21 +92,22 @@ export const CommentsHandler = (inputData: {
     return {
         insertReq: (commentData: CommentDataType) =>
             handleError(() => {
-                const { parentid, picture, name, comment, userid } = commentData;
+                const { parentid, picture, name, comment, userid } =
+                    commentData;
                 return handleComment(parentid, ({ nodeParent, array }: any) => {
                     const reqid: string = createUIDReq();
 
                     const newComment = {
                         parentid,
-                        picture, 
+                        picture,
                         comment,
                         name,
                         userid,
                         commentid: reqid,
                         child: [],
-                        processing: "new",
+                        processing: processingEnum.new,
                     };
-                    
+
                     if (parentid) {
                         // child comment
                         nodeParent.child.push(newComment);
@@ -109,7 +116,7 @@ export const CommentsHandler = (inputData: {
                         array.push(newComment);
                     }
 
-                    return { reqid };
+                    return { reqid, type: operationEnum.insert };
                 });
             }),
         insertRes: (req: any, res: any) =>
@@ -121,10 +128,10 @@ export const CommentsHandler = (inputData: {
                     ({ nodeParent, nodeChild }: any) => {
                         if (comment.parentid) {
                             nodeChild = Object.assign(nodeChild, comment);
-                            nodeChild.processing = null;
+                            nodeChild.processing = processingEnum.noProcessing;
                         } else {
                             nodeParent = Object.assign(nodeParent, comment);
-                            nodeParent.processing = null;
+                            nodeParent.processing = processingEnum.noProcessing;
                         }
                         inputData.numComments += 1;
                         return { reqid };
@@ -139,15 +146,16 @@ export const CommentsHandler = (inputData: {
                     commentid,
                     ({ nodeChild, nodeParent }: any) => {
                         const node = nodeChild || nodeParent;
-                        node.processing = "delete";
+                        node.processing = processingEnum.delete;
                         if (node.child && node.child.length) {
                             node.child.forEach(
-                                (e: any) => (node.processing = "delete")
+                                (e: any) =>
+                                    (node.processing = processingEnum.delete)
                             );
                         }
                         return {
                             reqid: createUIDReq(),
-                            type: "delete",
+                            type: operationEnum.delete,
                             commentid,
                         };
                     },
@@ -178,10 +186,10 @@ export const CommentsHandler = (inputData: {
                     ({ nodeChild, nodeParent }: any) => {
                         const node = nodeChild || nodeParent;
                         node.comment = comment;
-                        node.processing = "update";
+                        node.processing = processingEnum.update;
                         return {
                             reqid: createUIDReq(),
-                            type: "update",
+                            type: operationEnum.update,
                             commentid,
                             comment,
                         };
@@ -194,9 +202,14 @@ export const CommentsHandler = (inputData: {
                 const { commentid }: any = res;
                 return handleComment(
                     commentid,
-                    ({ nodeChild, nodeParent }: any) => {
-                        const node = nodeChild || nodeParent;
-                        node.processing = null;
+                    ({ nodeChild, nodeParent, array }: any) => {
+                        let node = nodeChild || nodeParent;
+                        const index = array.findIndex(
+                            (element: CommentDataType) => element === node
+                        );
+                        const nodeUpadte = Object.assign({}, node);
+                        nodeUpadte.processing = processingEnum.noProcessing;
+                        array.splice(index, 1, nodeUpadte);
                         return { commentid };
                     },
                     true

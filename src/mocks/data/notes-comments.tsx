@@ -10,15 +10,16 @@ function createUid() {
     return Date.now() + "" + uid();
 }
 export type CommentDataType = {
-    commentid?: string;
-    parentid?: string;
-    userid?: string;
-    name?: string; // no exist in comments array, get from users. The field is added only when comments are requested from the server.
-    picture?: string; // no exist in comments array, get from users. The field is added only when comments are requested from the server.
-    processing?: string | null; // only for Client Tree
-    comment?: string;
-    child?: CommentDataType[];
-    date?: string; // created on the server
+    commentid: string;
+    parentid: string;
+    userid: string;
+    name: string; // no exist in comments array, get from users. The field is added only when comments are requested from the server.
+    picture: string; // no exist in comments array, get from users. The field is added only when comments are requested from the server.
+    // processing not implemented yet
+    processing?: any; // only for Client Tree
+    comment: string;
+    child: CommentDataType[];
+    date: number; // created on the server
 };
 
 export const CommentsHandlerServer = ({
@@ -100,7 +101,7 @@ export const CommentsHandlerServer = ({
     const completeComment = (commentData: CommentDataType): CommentDataType => {
         const commentid: string = createUid();
         const userid = currentUserID;
-        const { parentid, comment, date = Date.now() }: any = commentData;
+        const { parentid, comment, date = Date.now() }: CommentDataType = commentData;
         if (!userid) throw new Error("user not defined");
 
         return {

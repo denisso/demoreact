@@ -14,7 +14,7 @@ export const Notes = React.memo(() => {
         document.title = "Notes";
         scrollContent(0);
     }, []);
-    const refHeaders = React.useRef<any[]>([]);
+    const refHeaders = React.useRef<HTMLElement[]>([]);
     return (
         <ContextNotes.Provider
             value={{

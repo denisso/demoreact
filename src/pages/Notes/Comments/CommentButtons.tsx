@@ -11,13 +11,15 @@
 import React from "react";
 import { ItemAnimatePresence } from "components/Tools";
 import { schemaForm, CForm } from "components/Elements/CForm";
-import { Context } from "./Context";
-import { Button } from "components/Elements/Button";
+import { Context, contextType } from "./Context";
+import { Button, ButtonTypesENUM } from "components/Elements/Button";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectSignInState } from "features/accounts/reducer";
 import { CommentDataType } from "mocks/data/notes-comments";
-import { operationType } from "./useCommentsHandler";
+import { operationEnum } from "./useCommentsHandler";
+import { processingEnum } from "./CommentsHandler";
+
 const CommentButtonsStyled = styled.div`
     display: flex;
     .CommentControlButtons {
@@ -44,7 +46,7 @@ const schema: schemaForm = [
 export const CommentButtons = React.memo(
     ({
         className,
-        comment = {},
+        comment,
     }: {
         className?: string;
         comment: CommentDataType;
@@ -54,8 +56,8 @@ export const CommentButtons = React.memo(
          * dispatch - function for add, delete, update comment data type ()=>{}
          * currentComment - current comment being processed type Ref
          */
-        const { dispatch, currentComment, setCurrentComment }: any =
-            React.useContext(Context);
+        const { dispatch, currentComment, setCurrentComment } =
+            React.useContext<contextType>(Context);
 
         // const { commentid, parentid } = comment || {};
         const { currentUserID, credentials } = useSelector(selectSignInState);
@@ -63,9 +65,10 @@ export const CommentButtons = React.memo(
         // uses as shared varable between button action,
         // then middleware form,
         // then use this typeAction in handler submit
-        const refTypeAction = React.useRef<operationType>(
-            operationType.undefined
+        const refTypeAction = React.useRef<operationEnum>(
+            operationEnum.undefined
         );
+        // disable button Reply  when another comment is processing 
         const [disable, setDisable] = React.useState(1);
         const disableRef = React.useRef<number>(disable);
         disableRef.current = disable;
@@ -87,9 +90,9 @@ export const CommentButtons = React.memo(
                 setShowReplyForm(false);
                 dispatch({
                     type:
-                        refTypeAction.current === operationType.insert
-                            ? operationType.insert
-                            : operationType.update,
+                        refTypeAction.current === operationEnum.insert
+                            ? operationEnum.insert
+                            : operationEnum.update,
                     payload: {
                         parentid: comment.parentid || comment.commentid,
                         commentid: comment.commentid,
@@ -106,14 +109,14 @@ export const CommentButtons = React.memo(
         const onCancel = React.useCallback(() => {
             if (disableRef.current) return;
             setCurrentComment("");
-            refTypeAction.current = operationType.undefined;
+            refTypeAction.current = operationEnum.undefined;
             setShowReplyForm(false);
         }, [setCurrentComment]);
         // delete comment
         const onDelete = React.useCallback(() => {
             if (disableRef.current) return;
             dispatch({
-                type: operationType.delete,
+                type: operationEnum.delete,
                 payload: {
                     commentid: comment.commentid,
                 },
@@ -122,14 +125,14 @@ export const CommentButtons = React.memo(
         // open form for update
         const onUpdate = React.useCallback(() => {
             if (disableRef.current) return;
-            refTypeAction.current = operationType.update;
+            refTypeAction.current = operationEnum.update;
             setShowReplyForm(true);
             setCurrentComment(comment.commentid);
         }, [comment, setCurrentComment]);
         // open form for reply
         const onReply = React.useCallback(() => {
             if (disableRef.current) return;
-            refTypeAction.current = operationType.insert;
+            refTypeAction.current = operationEnum.insert;
             setShowReplyForm(true);
             setCurrentComment(comment.commentid);
         }, [comment, setCurrentComment]);
@@ -140,13 +143,15 @@ export const CommentButtons = React.memo(
                     isVisible={!showReplyForm}
                     className="CommentControlButtons"
                 >
-                    {comment && !comment.processing && (
+                    {/* button reply shows if comment no noProcessing*/}
+                    {comment && comment.processing === processingEnum.noProcessing && (
                         <Button onClick={onReply} disable={disable}>
                             Reply
                         </Button>
                     )}
+                    {/* user owner comment can edit/delete this comment */}
                     {comment &&
-                        !comment.processing &&
+                        comment.processing === processingEnum.noProcessing &&
                         currentUserID === comment.userid && (
                             <>
                                 <Button onClick={onUpdate} disable={disable}>
@@ -155,7 +160,7 @@ export const CommentButtons = React.memo(
                                 <Button
                                     onClick={onDelete}
                                     disable={disable}
-                                    type={"alarm"}
+                                    type={ButtonTypesENUM.alarm}
                                 >
                                     Delete
                                 </Button>
@@ -186,7 +191,7 @@ export const ReplyButton = React.memo(
             (values: any, actions: any) => {
                 actions.resetForm();
                 dispatch({
-                    type: operationType.insert,
+                    type: operationEnum.insert,
                     payload: {
                         comment: values.message,
                     },

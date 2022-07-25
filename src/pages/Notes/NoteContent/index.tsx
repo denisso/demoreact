@@ -34,7 +34,7 @@ const Container = styled.div`
             }
             transition: flex-basis var(--transition);
         }
-        .NavHeadersDesctop {
+        .NavHeadersDesktop {
             flex-basis: 30%;
             max-width: 30%;
         }
@@ -77,7 +77,7 @@ export const NoteContent = withTheme(({ theme }: { theme: themeType }) => {
                                 isVisible={mDown("lg", theme.breakpoint)}
                             />
                             <NavHeadersDesktop
-                                className={"NavHeadersDesctop"}
+                                className={"NavHeadersDesktop"}
                                 isVisible={mUp("lg", theme.breakpoint)}
                             />
                         </div>

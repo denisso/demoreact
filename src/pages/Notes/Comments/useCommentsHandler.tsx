@@ -9,7 +9,7 @@ import { CommentDataType } from "mocks/data/notes-comments";
 
 type ReqResData = { error: any; payload?: any };
 
-export enum operationType {
+export enum operationEnum {
     undefined = "undefined",
     init = "init",
     insert = "insert",
@@ -30,7 +30,7 @@ export const useCommentsHandler = (noteSlug: string) => {
     // to update the data inside dispatch and not add a dependency to avoid re-creating the function dispatch
     const dataRef = React.useRef(data);
     const dispatch = React.useCallback(
-        async ({ type, payload }: { type: operationType; payload?: {} }) => {
+        async ({ type, payload }: { type: operationEnum; payload?: {} }) => {
             // request
             let req: ReqResData = {
                 error: false,
@@ -38,7 +38,7 @@ export const useCommentsHandler = (noteSlug: string) => {
             };
 
             try {
-                if (type === operationType.init) {
+                if (type === operationEnum.init) {
                     setLoading(true);
                 } else if (
                     CommentsHandler(dataRef.current)[`${type}Req`] instanceof
@@ -60,7 +60,7 @@ export const useCommentsHandler = (noteSlug: string) => {
             return new Promise((resolve) => {
                 if (req.error) throw new Error(req.error);
                 let optionsFetch = {};
-                if (type !== operationType.init) {
+                if (type !== operationEnum.init) {
                     optionsFetch = {
                         method: "POST",
                         body: JSON.stringify({ type, payload }),
@@ -74,7 +74,7 @@ export const useCommentsHandler = (noteSlug: string) => {
                             throw new Error("Res: " + responseData.error);
                         }
 
-                        if (type === operationType.init) {
+                        if (type === operationEnum.init) {
                             dataRef.current = responseData.payload;
                             setData({ ...dataRef.current });
                             resolve({ error: false });
@@ -97,7 +97,7 @@ export const useCommentsHandler = (noteSlug: string) => {
     );
 
     React.useEffect(() => {
-        dispatch({ type: operationType.init }).then(
+        dispatch({ type: operationEnum.init }).then(
             ({ error, payload }: any) => {
                 setLoading(false);
                 if (error) {

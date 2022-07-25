@@ -5,8 +5,8 @@
  */
 
 import React from "react";
-import { operationType } from "./useCommentsHandler";
-
+import { operationEnum } from "./useCommentsHandler";
+import { CommentDataType } from "mocks/data/notes-comments";
 export type contextType = {
     /**
      * dispatch actions to manage CRUD operations of comments
@@ -17,7 +17,7 @@ export type contextType = {
      * dispatch ({type: "delete", payload: {idcomment: "id comment"} }) - delete comment
      * dispatch ({type: "update", payload: {idcomment: "id comment", comment: "new string comment"} }) - update comment
      */
-    dispatch: (arg: { type: operationType; payload?: Partial<{}> }) => void;
+    dispatch: (arg: { type: operationEnum; payload?: Partial<CommentDataType> }) => void;
     /**
      * Used to control the display of the comment dialog
      * const [currentComment, setCurrentComment] = React.useState(null);
