@@ -20,10 +20,15 @@ const MotionButton = (props: any) => {
     );
 };
 
+export enum ButtonTypesENUM  {
+    submit = "submit",
+    alarm = "alarm"
+}
+
 export const Button = styled(MotionButton)<{
     theme?: themeType;
     disable?: number; // 0: false, : 1 - true
-    type?: string | number; // 0: normal (default), 1: submit (blue), 2: alarm (red)
+    type?: ButtonTypesENUM; // 0: normal (default), 1: submit (blue), 2: alarm (red)
 }>`
     --color: ${({ theme, disable }) =>
         disable ? theme.colors.firstLight : theme.ui.button.color};
@@ -33,9 +38,9 @@ export const Button = styled(MotionButton)<{
             return theme.ui.button.colorDisable;
         }
         switch (true) {
-            case type === "submit" || type === 1:
+            case type === ButtonTypesENUM.submit:
                 return theme.ui.button.borderColorHoverSubmit;
-            case type === "alarm" || type === 2:
+            case type === ButtonTypesENUM.alarm:
                 return theme.ui.button.borderdAlarm;
             default:
                 return theme.ui.button.borderColorHover;
