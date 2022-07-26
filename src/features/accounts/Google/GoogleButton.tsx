@@ -80,128 +80,139 @@ declare global {
     }
 }
 
-export const GoogleButton = React.memo(({ className }: { className?: string }) => {
-    const { isSignIn, credentials, currentUserID } =
-        useSelector(selectSignInState);
-    const dispatch = useDispatch();
-    const stateGoogle = useGoogleIdentityApi();
-    const modalTitle = React.useRef<string>("Your Account")
-    const { Modal, openModal, closeModal } = useModal(modalTitle.current);
+export const GoogleButton = React.memo(
+    ({ className }: { className?: string }) => {
+        const { isSignIn, credentials, currentUserID } =
+            useSelector(selectSignInState);
+        const dispatch = useDispatch();
+        const stateGoogle = useGoogleIdentityApi();
+        const modalTitle = React.useRef<string>("Your Account");
+        const { Modal, openModal, closeModal } = useModal(modalTitle.current);
 
-    const buttonGoogleRef = React.useRef(null);
+        const buttonGoogleRef = React.useRef(null);
 
-    const renderButton = React.useCallback(() => {
-        window.google.accounts.id.renderButton(buttonGoogleRef.current, {
-            theme: "outline",
-            shape: "circle",
-            type: "icon",
-            size: "medium",
-        });
-    }, []);
+        const renderButton = React.useCallback(() => {
+            window.google.accounts.id.renderButton(buttonGoogleRef.current, {
+                theme: "outline",
+                shape: "circle",
+                type: "icon",
+                size: "medium",
+            });
+        }, []);
 
-    React.useEffect(() => {
-        if (
-            !isSignIn &&
-            stateGoogle === GoogleLoadingStates.GoogleApiInitialized
-        ) {
-            renderButton();
-        }
-    }, [isSignIn, renderButton, stateGoogle]);
-    React.useEffect(() => {
-        if (stateGoogle === GoogleLoadingStates.GoogleApiInitialized) {
-            renderButton();
-            window.google.accounts.id.prompt();
-        }
-    }, [stateGoogle, renderButton]);
+        React.useEffect(() => {
+            if (
+                !isSignIn &&
+                stateGoogle === GoogleLoadingStates.GoogleApiInitialized
+            ) {
+                renderButton();
+            }
+        }, [isSignIn, renderButton, stateGoogle]);
+        React.useEffect(() => {
+            if (stateGoogle === GoogleLoadingStates.GoogleApiInitialized) {
+                renderButton();
+                window.google.accounts.id.prompt();
+            }
+        }, [stateGoogle, renderButton]);
+        const googleButtonHandler = React.useCallback((e:any) => {
+            e.preventDefault();
+            openModal();
+        },[openModal])
+        return (
+            <div
+                className={
+                    className ? `${className} GoogleButton` : "GoogleButton"
+                }
+            >
+                <ButtonWrapper>
+                    {stateGoogle === GoogleLoadingStates.GoogleApiInitialized &&
+                        (isSignIn ? (
+                            <div className="Icon SignOut" key={"SignOut"}>
+                                <a
+                                    href="/"
+                                    onClick={googleButtonHandler}
+                                >
+                                    <div className="pictureUser">
+                                        <img
+                                            src={credentials.picture}
+                                            alt="user avatar"
+                                        />
+                                    </div>
+                                </a>
+                            </div>
+                        ) : (
+                            <div
+                                ref={buttonGoogleRef}
+                                key={"SignIn"}
+                                className="Icon SignIn"
+                            ></div>
+                        ))}
+                </ButtonWrapper>
 
-    return (
-        <div
-            className={className ? `${className} GoogleButton` : "GoogleButton"}
-        >
-            <ButtonWrapper>
-                {stateGoogle === GoogleLoadingStates.GoogleApiInitialized &&
-                    (isSignIn ? (
-                        <div className="Icon SignOut" key={"SignOut"}>
-                            <a
-                                href="/"
-                                onClick={() => {
-                                    openModal();
-                                }}
-                            >
-                                <div className="pictureUser">
+                <Modal>
+                    {isSignIn && (
+                        <ModalContentWrapper>
+                            <div className="ModalContainer">
+                                <div className="PictureUser">
                                     <img
                                         src={credentials.picture}
                                         alt="user avatar"
                                     />
                                 </div>
-                            </a>
-                        </div>
-                    ) : (
-                        <div
-                            ref={buttonGoogleRef}
-                            key={"SignIn"}
-                            className="Icon SignIn"
-                        ></div>
-                    ))}
-            </ButtonWrapper>
-
-            <Modal>
-                {isSignIn && (
-                    <ModalContentWrapper>
-                        <div className="ModalContainer">
-                            <div className="PictureUser">
-                                <img
-                                    src={credentials.picture}
-                                    alt="user avatar"
-                                />
+                                <div className="UserInfo">
+                                    <div className="Email">
+                                        {credentials.email}
+                                    </div>
+                                    <div className="Name">
+                                        {credentials.name}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="UserInfo">
-                                <div className="Email">{credentials.email}</div>
-                                <div className="Name">{credentials.name}</div>
-                            </div>
-                        </div>
 
-                        <div className="ModalFooter">
-                            <Button
-                                onClick={() => {
-                                    closeModal();
-                                }}
-                            >
-                                Close
-                            </Button>
-                            <ButtonSubmit
-                                onClick={(e: any) => {
-                                    e.preventDefault();
-                                    if (
-                                        stateGoogle !==
-                                            GoogleLoadingStates.GoogleApiInitialized ||
-                                        !window.google
-                                    )
-                                        return;
+                            <div className="ModalFooter">
+                                <Button
+                                    onClick={() => {
+                                        closeModal();
+                                    }}
+                                >
+                                    Close
+                                </Button>
+                                <ButtonSubmit
+                                    onClick={(e: any) => {
+                                        e.preventDefault();
+                                        if (
+                                            stateGoogle !==
+                                                GoogleLoadingStates.GoogleApiInitialized ||
+                                            !window.google
+                                        )
+                                            return;
 
-                                    window.google.accounts.id.revoke(
-                                        currentUserID,
-                                        () => {
-                                            dispatch(signOut());
-                                            dispatch(
-                                                postUserCredentials({
-                                                    id: "guest",
-                                                })
-                                            );
+                                        window.google.accounts.id.revoke(
+                                            currentUserID,
+                                            () => {
+                                                dispatch(signOut());
+                                                dispatch(
+                                                    postUserCredentials({
+                                                        id: "guest",
+                                                    })
+                                                );
+                                            }
+                                        );
+                                        closeModal();
+                                    }}
+                                >
+                                    Exit{" "}
+                                    <FontAwesomeIcon
+                                        icon={
+                                            faPersonWalkingDashedLineArrowRight
                                         }
-                                    );
-                                    closeModal();
-                                }}
-                            >
-                                Exit{" "}
-                                <FontAwesomeIcon
-                                    icon={faPersonWalkingDashedLineArrowRight}
-                                />
-                            </ButtonSubmit>
-                        </div>
-                    </ModalContentWrapper>
-                )}
-            </Modal>
-        </div>
-    );
-});
+                                    />
+                                </ButtonSubmit>
+                            </div>
+                        </ModalContentWrapper>
+                    )}
+                </Modal>
+            </div>
+        );
+    }
+);
