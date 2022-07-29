@@ -52,3 +52,16 @@ Build
 - **Home page**: description of the components that were used in the development of this demo project
 - **About me**: description of my skills
 - **Notes with comments**: demonstration of the markdown component and the Comments module
+
+## Dependencies
+-  React: 17
+-  React scripts 5
+-  React Router 6
+-  Framer motion 6
+-  Ract Markdown 8
+-  Styled components 5
+-  MSW
+-  EMAILJS
+-  Fortawesome
+-  Redux
+-  Formik

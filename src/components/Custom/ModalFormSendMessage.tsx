@@ -5,7 +5,8 @@
  */
 import React from "react";
 import { useFormModal, schemaForm, modalEnum } from "components/Elements/CForm";
-
+import emailjs from "@emailjs/browser";
+import { message_key } from "settings-demo-project";
 const schema: schemaForm = [
     {
         name: "name",
@@ -30,27 +31,50 @@ const schema: schemaForm = [
     },
 ];
 
-export const ModalFormSendMessage = React.memo(({
-    openFormModalCB,
-}: {
-    openFormModalCB: (callback: any) => void;
-}) => {
-    const { CFormModal, openFormModal, processFormModal } =
-        useFormModal("Fake Send message (under development)", {
-            middleware: true,
-        });
-    const onSubmit = React.useCallback(
-        (values: any, { setSubmitting }: any) => {
-            processFormModal({ payload: modalEnum.loading });
-            setTimeout(() => {
-                processFormModal({ payload: modalEnum.fulfilled });
-                setSubmitting(false);
-            }, 1400);
-        },
-        [processFormModal]
-    );
-    React.useEffect(()=>{
-        openFormModalCB(openFormModal)
-    },[openFormModalCB, openFormModal])
-    return <CFormModal {...{ schema, onSubmit }} />;
-});
+type FormFieldsType = {
+    name: string;
+    email: string;
+    message: string;
+};
+export const ModalFormSendMessage = React.memo(
+    ({ openFormModalCB }: { openFormModalCB: (callback: any) => void }) => {
+        const { CFormModal, openFormModal, processFormModal } = useFormModal(
+            "Send message",
+            {
+                middleware: true,
+            }
+        );
+        const onSubmit = React.useCallback(
+            (fields: FormFieldsType, { setSubmitting }: any) => {
+                processFormModal({ payload: modalEnum.loading });
+                emailjs
+                    .send(
+                        message_key.service,
+                        message_key.template,
+                        // field from template EmailJS
+                        {
+                            contact_name: fields.name,
+                            contact_email: fields.email,
+                            contact_message: fields.message,
+                        },
+                        message_key.api
+                    )
+                    .then(
+                        () => {
+                            processFormModal({ payload: modalEnum.fulfilled });
+                            setSubmitting(false);
+                        },
+                        () => {
+                            processFormModal({ payload: modalEnum.rejected });
+                            setSubmitting(false);
+                        }
+                    );
+            },
+            [processFormModal]
+        );
+        React.useEffect(() => {
+            openFormModalCB(openFormModal);
+        }, [openFormModalCB, openFormModal]);
+        return <CFormModal {...{ schema, onSubmit }} />;
+    }
+);
