@@ -11,6 +11,7 @@ import { themeType } from "./themeType";
  */
 
 const colors: colorsType = {
+    themeName: "Dark",
     colorRoot: "#5a5a5a",
     first: "#ffffff",
     firstLight: "#7a7a7a",

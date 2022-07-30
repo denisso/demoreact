@@ -6,14 +6,14 @@
 
 import React from "react";
 import { useDispatch } from "react-redux";
-import { applyResizeObserver } from "../reducer";
+import { applyViewportResize } from "../reducer";
 var throttle = require("lodash.throttle");
 
 export const useResizeObserver = () => {
     const dispatch = useDispatch();
     React.useEffect(() => {
         const calculate = throttle(function () {
-            dispatch(applyResizeObserver());
+            dispatch(applyViewportResize());
         }, 200);
         if (window.ResizeObserver) {
             const resizeObserver = new ResizeObserver(() => {

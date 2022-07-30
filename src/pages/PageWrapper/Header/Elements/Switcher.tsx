@@ -6,12 +6,14 @@
 
 import React from "react";
 import styled from "styled-components";
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
-import { themeType } from "features/theming";
-
+import { themeType, switchTheme } from "features/theming";
+import { selectThemeName } from "features/theming/reducer";
+import { useSelector, useDispatch } from "react-redux";
+import { ItemAnimatePresence } from "components/Tools/Animation/ItemAnimatePresence"
 const Component = styled.div<{
     theme?: themeType;
     size?: string;
@@ -62,20 +64,37 @@ const spring = {
     stiffness: 700,
     damping: 30,
 };
-export const ThemeSwitcher = React.memo(({ trigger, size }: any) => {
-    const [theme, toggleTheme] = useCycle("Light", "Dark");
-    const toggleSwitch = () => {
-        toggleTheme();
-    };
+
+export const ThemeSwitcher = React.memo(({ size }: any) => {
+    const dispatch = useDispatch();
+    const themeName = useSelector(selectThemeName);
+
+    const [theme, setTheme] = React.useState<string>(themeName);
+    const toggleSwitch = React.useCallback(() => {
+        const switchedTheme =
+            theme === "Light" ? "Dark" : "Light";
+        setTheme(switchedTheme);
+        dispatch(
+            switchTheme({
+                themeName: switchedTheme,
+            })
+        );
+    }, [theme, dispatch]);
+
     React.useEffect(() => {
-        trigger(theme);
-    }, [theme, trigger]);
+        setTheme(themeName);
+    }, [themeName, setTheme]);
+
     return (
-        <Component data-ison={theme} onClick={toggleSwitch} size={size}>
-            <motion.div className="handle" layout transition={spring}>
-                <FontAwesomeIcon className="Icon Light" icon={faSun} />
-                <FontAwesomeIcon className="Icon Dark" icon={faMoon} />
-            </motion.div>
-        </Component>
+        <>
+            <ItemAnimatePresence isVisible={themeName !== "Init"}>
+                <Component data-ison={theme} onClick={toggleSwitch} size={size}>
+                    <motion.div className="handle" layout transition={spring}>
+                        <FontAwesomeIcon className="Icon Light" icon={faSun} />
+                        <FontAwesomeIcon className="Icon Dark" icon={faMoon} />
+                    </motion.div>
+                </Component>
+            </ItemAnimatePresence>
+        </>
     );
 });

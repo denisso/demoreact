@@ -10,6 +10,7 @@ import { themeType } from "./themeType";
  * Light is short for lightness
  */
 const colors: colorsType = {
+    themeName: "Light",
     colorRoot: "#fff",
     first: "#222222",
     firstLight: "#7a7a7a",

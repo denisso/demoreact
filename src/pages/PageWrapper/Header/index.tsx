@@ -7,11 +7,10 @@
 import React from "react";
 import { up } from "styled-breakpoints";
 import styled, { withTheme } from "styled-components";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useCycle } from "framer-motion";
 import { Logo } from "assets/img/LogoIcon";
-import { themeType, mDown, mUp, switchTheme } from "features/theming";
+import { themeType, mDown, mUp} from "features/theming";
 import { ItemAnimatePresence } from "components/Tools/Animation";
 import { MobileMenu } from "./Elements/MobileMenu";
 import { MainMenu } from "./Elements/MainMenu";
@@ -65,7 +64,6 @@ const HeaderWrapper = styled.header`
 `;
 
 const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
-    const dispatch = useDispatch();
     const [isOpen, toggleOpen] = useCycle(false, true);
     const openFormModal = React.useRef<(arg: any) => void>((arg: any) => {});
     React.useEffect(() => {
@@ -73,10 +71,7 @@ const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
         if (mUp("md", theme.breakpoint) && isOpen) toggleOpen();
     }, [theme.breakpoint, isOpen, toggleOpen]);
 
-    const trigger = React.useCallback(
-        (name: string) => dispatch(switchTheme({ themeName: name })),
-        [dispatch]
-    );
+
     return (
         <>
             <HeaderWrapper>
@@ -115,7 +110,7 @@ const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
                                 className="Icon"
                             />
                         </Anchor>
-                        <ThemeSwitcher size={"1.6rem"} trigger={trigger} />
+                        <ThemeSwitcher size={"1.6rem"} />
 
                         <AccountComponent />
                     </div>

@@ -1,5 +1,5 @@
 /**
- * @description 
+ * @description
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
@@ -48,6 +48,7 @@ const slice = createSlice({
             if (Themes[action?.payload?.themeName]) {
                 state.current = {
                     ...Themes[action?.payload?.themeName],
+                    themeName: action?.payload?.themeName,
                     breakpoint: state.current.breakpoint,
                 };
             }
@@ -68,7 +69,8 @@ const slice = createSlice({
                 document.documentElement.scrollTop = state.scrollTop || 0;
             }
         },
-        applyResizeObserver: (state: iState) => {
+        applyViewportResize: (state: iState) => {
+            // smooth document width resize and scroll bar width shift prevent
             state.current.breakpoint = getMedia();
             setTimeout(
                 ({ isShowModal, scrollBarWidth }) => {
@@ -77,7 +79,10 @@ const slice = createSlice({
                     if (isShowModal) {
                         width -= scrollBarWidth || 0;
                     }
-                    document.documentElement.style.setProperty('--width', width + "px");
+                    document.documentElement.style.setProperty(
+                        "--width",
+                        width + "px"
+                    );
                 },
                 0,
                 {
@@ -97,4 +102,9 @@ export const reducerTheming = slice.reducer;
 export const selectTheme = (state: StateThemes): themeType => {
     return state.themes.current;
 };
-export const { switchTheme, applyResizeObserver, toggleModal } = slice.actions;
+export const selectThemeName = (state: StateThemes): string => {
+    if (state.themes.current.themeName === "Light") return "Light";
+    else if (state.themes.current.themeName === "Dark") return "Dark";
+    return "Init";
+};
+export const { switchTheme, applyViewportResize, toggleModal } = slice.actions;

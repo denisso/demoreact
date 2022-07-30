@@ -7,6 +7,7 @@
 import { colorsType } from "./themeSchema";
 
 export type themeType = {
+    themeName: string;
     colors: colorsType;
     fontFamily: string;
     transition: string;

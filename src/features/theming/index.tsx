@@ -8,7 +8,7 @@ export {
     reducerTheming,
     selectTheme,
     switchTheme,
-    applyResizeObserver,
+    applyViewportResize,
 } from "./reducer";
 
 export { ThemeProvider } from "./ThemeProvider";
