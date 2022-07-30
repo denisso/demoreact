@@ -1,6 +1,6 @@
 /**
  * Keep Alive imitation
- * https://codesandbox.io/examples/package/@mswjs/data
+ * Chrome removes idle service worker after 30-40 seconds https://github.com/mswjs/msw/issues/367
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
