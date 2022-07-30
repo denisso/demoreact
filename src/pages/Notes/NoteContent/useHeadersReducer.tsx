@@ -6,72 +6,76 @@
 
 import React from "react";
 
-const changeCurrentHeader = (state: any, action: any, localData: any) => {
-    if (action.type === "ready") {
-        localData.headers = action.payload.headers.current;
+export enum enumActions {
+    ready = "ready",
+    changeCurrentHeader = "changeCurrentHeader",
+}
+
+export type stateType = {
+    value: number;
+    headers: Array<HTMLElement>;
+};
+
+const reducer = (state: stateType, action: { type: string; payload: any }) => {
+    if (action.type === enumActions.ready) {
+        const arr = action.payload.headers.current;
+        if (arr instanceof Array) {
+            arr.forEach((e) => state.headers.push(e));
+        }
         return state;
     }
+
+    let indexTop = state.value
+
     let { indxTriggered, entity }: any = action.payload;
 
     if (entity.isIntersecting) {
         // appear
         if (entity.boundingClientRect.top < 0) {
             // from above && scroll to up
-            localData.indxTop = indxTriggered;
+            indexTop = indxTriggered;
         } else {
             // from belove && scroll to bottom
             if (
-                localData.headers[localData.indxTop].getBoundingClientRect()
+                state.headers[indexTop].getBoundingClientRect()
                     .bottom < 0
             ) {
                 // if top header outside viewport set active next header
-                localData.indxTop = localData.indxTop + 1;
+                indexTop = indexTop + 1;
             }
         }
     } else {
         // leave
         if (entity.boundingClientRect.top > 0) {
             // leave below && scroll to up
-            const indxPrevHeader =
-                localData.indxTop - 1 >= 0
-                    ? localData.indxTop - 1
-                    : localData.indxTop;
-            if (
-                localData.headers[indxPrevHeader].getBoundingClientRect().top >
-                0
-            ) {
-                localData.indxTop = indxPrevHeader;
+
+            if(state.headers[indexTop] === entity.target){
+                indexTop -= 1
             }
+
         } else {
             // leave above && scroll to bottom
             const indxNeaxtHeader =
-                localData.indxTop + 1 < localData.headers.length
-                    ? localData.indxTop + 1
-                    : localData.indxTop;
+                indexTop + 1 < state.headers.length
+                    ? indexTop + 1
+                    : indexTop;
             if (
-                localData.headers[indxNeaxtHeader].getBoundingClientRect().top <
+                state.headers[indxNeaxtHeader].getBoundingClientRect().top <
                 document.documentElement.clientHeight
             ) {
                 // if  next header not outside viewport set active nex header
-                localData.indxTop = indxNeaxtHeader;
+                indexTop = indxNeaxtHeader;
             }
         }
     }
-
-    return { value: localData.indxTop };
+    if (state.value === indexTop) return state;
+    return { ...state, value: indexTop};
 };
 
-const reducer = (() => {
-    const localData = {
-        headers: [],
-        indxTop: 0,
-    };
-    return (state: any, action: any) => {
-        return changeCurrentHeader(state, action, localData);
-    };
-})();
-
 export const useHeadersReducer = () => {
-    const [state, dispatch] = React.useReducer(reducer, { value: 0 });
+    const [state, dispatch] = React.useReducer(reducer, {
+        value: 0,
+        headers: []
+    });
     return { state, dispatch };
 };

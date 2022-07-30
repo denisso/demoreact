@@ -11,7 +11,7 @@ import { NoteDataType } from "mocks/data/notes";
 import styled from "styled-components";
 import { Markdown } from "components/Tools/Markdown";
 import { ContextNotes } from "../ContextNotes";
-import { useHeadersReducer } from "./useHeadersReducer";
+import { useHeadersReducer, enumActions } from "./useHeadersReducer";
 import { PagesContext } from "pages";
 import { ImageLazy } from "components/Elements/ImageLazy";
 import { scrollContent } from "components/Tools";
@@ -138,7 +138,7 @@ export const BlockContent = ({
         ({ entity }) => {
             const indxTriggered = refHeaders.current.indexOf(entity.target);
             dispatch({
-                type: "changeCurrentHeader",
+                type: enumActions.changeCurrentHeader,
                 payload: { indxTriggered, entity },
             });
         },
@@ -229,7 +229,7 @@ export const BlockContent = ({
             ref={(node: any) => {
                 if (node && !contentReady) {
                     dispatch({
-                        type: "ready",
+                        type: enumActions.ready,
                         payload: {
                             headers: refHeaders,
                         },
