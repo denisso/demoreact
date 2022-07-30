@@ -1,3 +1,7 @@
+# Hire me!
+
+[telegram](https://t.me/DenisReactWebCoder)
+
 # Demo
 
 [denisso.github.io](https://denisso.github.io/)
