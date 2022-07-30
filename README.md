@@ -49,6 +49,7 @@ Build
    - opening the modal does not cause the content to shift, due to the disappearance of the scroll bar,
    - while the window is open, it is forbidden to scroll the content
    - form can be embedded in a modal window, and optionally use middleware.
+- **Free email messanger** EmailJS - Send Email Directly From JavaScript. No server code needed. Focus on things that matter!
  - **Smooth scroll**
  - **Error Boundary**
 
