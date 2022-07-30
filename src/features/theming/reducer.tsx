@@ -103,8 +103,6 @@ export const selectTheme = (state: StateThemes): themeType => {
     return state.themes.current;
 };
 export const selectThemeName = (state: StateThemes): string => {
-    if (state.themes.current.themeName === "Light") return "Light";
-    else if (state.themes.current.themeName === "Dark") return "Dark";
-    return "Init";
+    return state.themes.current.themeName;
 };
 export const { switchTheme, applyViewportResize, toggleModal } = slice.actions;

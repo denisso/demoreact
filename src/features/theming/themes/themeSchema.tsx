@@ -31,6 +31,7 @@ export const createThemeSchema = ({
 }: {
     colors: colorsType;
 }): themeType => ({
+    themeName: "Init",
     colors: { ...colors },
     fontFamily: "Arial, Helvetica, sans-serif",
     transition: ".4s",
