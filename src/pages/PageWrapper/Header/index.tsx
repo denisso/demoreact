@@ -10,7 +10,7 @@ import styled, { withTheme } from "styled-components";
 import { Link } from "react-router-dom";
 import { useCycle } from "framer-motion";
 import { Logo } from "assets/img/LogoIcon";
-import { themeType, mDown, mUp} from "features/theming";
+import { themeType, mDown, mUp } from "features/theming";
 import { ItemAnimatePresence } from "components/Tools/Animation";
 import { MobileMenu } from "./Elements/MobileMenu";
 import { MainMenu } from "./Elements/MainMenu";
@@ -53,7 +53,7 @@ const HeaderWrapper = styled.header`
             & > * + * {
                 margin-left: 1rem;
             }
-            & > .Anchor {
+            & > .openFormSendMessage {
                 & > .Icon {
                     width: 1.5rem;
                     height: 1.5rem;
@@ -70,7 +70,6 @@ const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
         // mobile menu must be close in desktop mode
         if (mUp("md", theme.breakpoint) && isOpen) toggleOpen();
     }, [theme.breakpoint, isOpen, toggleOpen]);
-
 
     return (
         <>
@@ -98,8 +97,17 @@ const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
                         <MainMenu key={"DesktopMenu"} />
                     </div>
                     <div className="HeaderRightSide">
+                        <div className="HireMe">
+                            <Anchor
+                                className="Telergram"
+                                href="https://t.me/DenisReactWebCoder"
+                                target="_blank"
+                            >
+                               Hire Me by @telegram
+                            </Anchor>
+                        </div>
                         <Anchor
-                            className="Anchor"
+                            className="openFormSendMessage"
                             onClick={(e: any) => {
                                 if (openFormModal.current)
                                     openFormModal.current(e);
@@ -126,4 +134,4 @@ const HeaderComponent = withTheme(({ theme }: { theme: themeType }) => {
     );
 });
 
-export const Header = React.memo(HeaderComponent)
+export const Header = React.memo(HeaderComponent);
