@@ -11,7 +11,21 @@ Install
 
 `npm i `
 
-To work with Google Sign In, you need an API Client ID. Instructions for getting the API Client ID are [here](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid). After receiving the key, you need to add it to the GSI_key variable in the file src/settings-demo-project.template.txt and execute the command 
+*Edit file settings-demo-project.template.tsx*
+`
+// Google Sign In
+export const GSI_key = "YOUR GSI KEY"
+
+// EmailJS
+export const message_key = {
+    service: "YOUR SERVICE",
+    template: "YOUR TEMPLATE",
+    api: "YOUR API",
+};
+`
+Instructions for [Google Sign In](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
+
+Instructions for [EmailJS](https://www.emailjs.com/docs/)
 
 `npm run postinstall`
 
