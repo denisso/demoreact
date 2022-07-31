@@ -13,7 +13,7 @@ Install
 
 Edit file *settings-demo-project.template.tsx*
 
-```
+```js
 // Google Sign In
 export const GSI_key = "YOUR GSI KEY"
 
