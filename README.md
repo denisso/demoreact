@@ -13,7 +13,7 @@ Install
 
 *Edit file settings-demo-project.template.tsx*
 
-`
+```
 // Google Sign In
 export const GSI_key = "YOUR GSI KEY"
 
@@ -23,7 +23,7 @@ export const message_key = {
     template: "YOUR TEMPLATE",
     api: "YOUR API",
 };
-`
+```
 
 Instructions for [Google Sign In](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)
 
