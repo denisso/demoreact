@@ -12,6 +12,7 @@ Install
 `npm i `
 
 *Edit file settings-demo-project.template.tsx*
+
 `
 // Google Sign In
 export const GSI_key = "YOUR GSI KEY"
@@ -23,7 +24,8 @@ export const message_key = {
     api: "YOUR API",
 };
 `
-Instructions for [Google Sign In](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
+
+Instructions for [Google Sign In](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)
 
 Instructions for [EmailJS](https://www.emailjs.com/docs/)
 
