@@ -29,7 +29,7 @@ Instructions for [Google Sign In](https://developers.google.com/identity/gsi/web
 
 Instructions for [EmailJS](https://www.emailjs.com/docs/)
 
-run this script below and rename file *settings-demo-project.template.tsx* to *settings-demo-project.tsx*
+run this script below or rename file *settings-demo-project.template.tsx* to *settings-demo-project.tsx*
 
 `npm run postinstall`
 
