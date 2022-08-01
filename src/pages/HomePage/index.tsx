@@ -162,7 +162,7 @@ export const HomePage = React.memo(() => {
     const { data, error, isLoading } = useGetPageQuery("homepage");
     React.useEffect(() => {
         document.title = "Home page";
-        scrollContent(0);
+        scrollContent(0, 0);
     }, []);
     return (
         <Content>

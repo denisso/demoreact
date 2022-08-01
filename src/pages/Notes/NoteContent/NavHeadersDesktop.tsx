@@ -45,7 +45,7 @@ export const NavHeadersDesktop = ({
 
     // handler for scroll to header
     const onClickAnchor = React.useCallback((e: any) => {
-        scrollContent(document.querySelector(e.target.hash).offsetTop);
+        scrollContent(document.querySelector(e.target.hash));
     }, []);
 
     // refs on elementa a[href] in table of content

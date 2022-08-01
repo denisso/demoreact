@@ -32,7 +32,7 @@ export const AboutMe = React.memo(() => {
 
     React.useEffect(() => {
         document.title = "About me";
-        scrollContent(0);
+        scrollContent(0, 0);
     }, []);
     return (
         <Content>

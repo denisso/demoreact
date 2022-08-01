@@ -49,7 +49,7 @@ const Container = styled.div`
  */
 export const NoteContent = withTheme(({ theme }: { theme: themeType }) => {
     React.useEffect(() => {
-        scrollContent(0);
+        scrollContent(0, 0);
     }, []);
     // Get param from URL string
     const { noteSlug } = useParams<{

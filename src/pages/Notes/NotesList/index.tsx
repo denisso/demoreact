@@ -46,7 +46,7 @@ const Content = styled.div`
 export const NotesListWithFilter = React.memo(() => {
     const { intersect }: PagesContextType = React.useContext(PagesContext);
     React.useEffect(() => {
-        scrollContent(0);
+        scrollContent(0, 0);
         document.title = "Notes List";
     }, []);
     const { data, error, isLoading, last, fetchNextPage } = useInfiniteQuery();

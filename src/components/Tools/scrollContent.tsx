@@ -4,26 +4,50 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-export const scrollContent = (scrollTopNext: number) => {
-    const $doc = document.documentElement;
-    let scrollTopPrev: number = $doc.scrollTop;
-    let scrollTopDiff: number = scrollTopNext - scrollTopPrev;
-    let duration: number = Math.abs(scrollTopDiff) * 2;
+const $doc = document.documentElement;
 
-    if (duration > 400) duration = 400;
-    let timeEnd: number = performance.now() + duration;
+const animateScrollTo = (scrollTopEnd: number) =>
+    new Promise((resolve) => {
+        let scrollTopStart: number = $doc.scrollTop;
 
-    requestAnimationFrame(function ani(timeCurrent) {
-        let timeDiff = timeEnd - timeCurrent;
-        timeDiff = timeDiff > duration ? duration : timeDiff;
-        let percent = 1 - timeDiff / duration;
+        let duration: number = Math.abs(scrollTopEnd) * 2;
 
-        if (percent > 1) {
-            $doc.scrollTop = scrollTopPrev + scrollTopDiff;
-            return;
-        }
+        if (duration > 400) duration = 400;
 
-        $doc.scrollTop = scrollTopPrev + scrollTopDiff * percent;
-        return requestAnimationFrame(ani);
+        let timeEnd: number = performance.now() + duration;
+
+        requestAnimationFrame(function ani(timeCurrent) {
+            let timeDiff = timeEnd - timeCurrent;
+
+            let percent = 1 - timeDiff / duration;
+
+            if (percent > 1) {
+                $doc.scrollTop = scrollTopStart + scrollTopEnd;
+                return resolve(true);
+            }
+
+            $doc.scrollTop = scrollTopStart + scrollTopEnd * percent;
+            return requestAnimationFrame(ani);
+        });
     });
+
+export const scrollContent = async (
+    scrollTo: number | HTMLElement,
+    offset: number = -100
+) => {
+    if (scrollTo instanceof HTMLElement) {
+        // for lazy loading image vertical shift 
+        for (let attempt = 0; attempt < 5; attempt++) {
+            await animateScrollTo(
+                scrollTo.getBoundingClientRect().top + offset
+            );
+            if (Math.abs(scrollTo.getBoundingClientRect().top + offset) < 3) {
+
+                break;
+            }
+        }
+    } else {
+        if (typeof scrollTo !== "number") return;
+        await animateScrollTo(scrollTo + offset - $doc.scrollTop);
+    }
 };

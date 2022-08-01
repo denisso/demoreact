@@ -1,7 +1,5 @@
 /**
- * Component for displays only content post
- * additional feature: this component source of truth for the currently displayed header
- * current header stored in context "ContextNotes" as number
+ * Component for displays post content 
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
@@ -238,12 +236,12 @@ export const BlockContent = ({
                     const loation = window.location || document.location;
                     if (loation.hash) {
                         try {
-                            const $lement = document.querySelector(
+                            const $lement: HTMLElement | null = document.querySelector(
                                 loation.hash
                             );
                             if ($lement) {
                                 scrollContent(
-                                    $lement.getBoundingClientRect().top
+                                    $lement
                                 );
                             }
                         } catch (e) {}

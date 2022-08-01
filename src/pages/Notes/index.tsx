@@ -12,7 +12,7 @@ export const Notes = React.memo(() => {
     const [currentHeader, setCurrentHeader] = React.useState(-1);
     React.useEffect(() => {
         document.title = "Notes";
-        scrollContent(0);
+        scrollContent(0, 0);
     }, []);
     const refHeaders = React.useRef<HTMLElement[]>([]);
     return (
