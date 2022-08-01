@@ -78,7 +78,7 @@ export const NavHeadersMobile = ({
                     break;
                 default:
             }
-            scrollContent(refHeaders.current[indx].offsetTop);
+            scrollContent(refHeaders.current[indx]);
 
             closeModal();
         },

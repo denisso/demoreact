@@ -33,7 +33,7 @@ const animateScrollTo = (scrollTopEnd: number) =>
 
 export const scrollContent = async (
     scrollTo: number | HTMLElement,
-    offset: number = -100
+    offset: number = -40
 ) => {
     if (scrollTo instanceof HTMLElement) {
         // for lazy loading image vertical shift 
