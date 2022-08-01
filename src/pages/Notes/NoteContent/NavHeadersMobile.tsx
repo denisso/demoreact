@@ -84,7 +84,7 @@ export const NavHeadersMobile = ({
         },
         [closeModal, refHeaders]
     );
-    if (currentHeader < 0) {
+    if (refHeaders.current instanceof Array === false) {
         return <></>;
     }
     return (

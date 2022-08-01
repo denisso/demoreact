@@ -61,7 +61,7 @@ export const NavHeadersDesktop = ({
         refAnchors.current[currentHeader] &&
             refAnchors.current[currentHeader].classList.add("active");
     }, [currentHeader, refHeaders]);
-    if (currentHeader < 0) {
+    if (refHeaders.current instanceof Array === false) {
         return <></>;
     }
     return (

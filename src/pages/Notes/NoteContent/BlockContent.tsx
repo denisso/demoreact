@@ -121,7 +121,7 @@ export const BlockContent = ({
     const [contentReady, setReady] = React.useState(false);
     // changing the index current header when scrolling
     React.useEffect(() => {
-        setCurrentHeader(state.value);
+        setCurrentHeader(state.headerIndexTop);
     }, [state, setCurrentHeader]);
 
     // unmount component and remove nodes from intersector observer
@@ -134,26 +134,25 @@ export const BlockContent = ({
     }, [intersect, refHeaders, setCurrentHeader]);
 
     // get intersection entry from intersection observer
-    const handleHeader = React.useCallback(
+    const headerIntersectionHandler = React.useCallback(
         ({ entity }) => {
-            const indxTriggered = refHeaders.current.indexOf(entity.target);
             dispatch({
                 type: enumActions.changeCurrentHeader,
-                payload: { indxTriggered, entity },
+                payload: { entity },
             });
         },
-        [dispatch, refHeaders]
+        [dispatch]
     );
 
     // add nodes header to use intersect hook
     const addNodeToIntersect = React.useCallback(
         (node) => {
             if (node) {
-                intersect.addNodes({ node, trigger: handleHeader });
+                intersect.addNodes({ node, trigger: headerIntersectionHandler });
                 refHeaders.current.push(node);
             }
         },
-        [handleHeader, intersect, refHeaders]
+        [headerIntersectionHandler, intersect, refHeaders]
     );
 
     // components for markdown
@@ -228,6 +227,7 @@ export const BlockContent = ({
             className={className}
             ref={(node: any) => {
                 if (node && !contentReady) {
+
                     dispatch({
                         type: enumActions.ready,
                         payload: {
