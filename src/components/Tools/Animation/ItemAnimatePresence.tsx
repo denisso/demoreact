@@ -3,7 +3,7 @@
  * @author Denis Kurochkin (mr_dramm) <blackbrain2009@gmail.com>
  * @copyright Denis Kurochkin 2022
  */
-import React from "react"
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
@@ -27,29 +27,27 @@ export type Props = {
         idea: make several types of animations 
         for example animationType = ["fadeInOut", "fromLeft"]
     */
-    animationType?: Array<string>; 
+    animationType?: Array<string>;
     className?: any;
 };
 
-export const ItemAnimatePresence = React.memo(({
-    children,
-    className,
-    isVisible = true,
-}: Props) => {
-    return (
-        <AnimatePresence>
-            {isVisible === true && (
-                <motion.div
-                    className={className}
-                    variants={animations}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: .4 }}
-                >
-                    {children}
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
-});
+export const ItemAnimatePresence = React.memo(
+    ({ children, className, isVisible = true }: Props) => {
+        return (
+            <AnimatePresence exitBeforeEnter initial={false}>
+                {isVisible === true && (
+                    <motion.div
+                        className={className}
+                        variants={animations}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        transition={{ duration: 0.4 }}
+                    >
+                        {children}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        );
+    }
+);
